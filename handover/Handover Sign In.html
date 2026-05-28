@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in — Handover</title>
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  .auth-shell {
+    min-height: calc(100vh - 68px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 880px) { .auth-shell { grid-template-columns: 1fr; min-height: auto; } }
+
+  .auth-art {
+    background: linear-gradient(160deg, #B85431 0%, #8A3C20 65%, #5C2E3C 100%);
+    color: #F6F1E7;
+    padding: 80px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  @media (max-width: 880px) { .auth-art { padding: 56px 32px 72px; } }
+  .auth-art::before {
+    content: ""; position: absolute; top: -120px; right: -120px;
+    width: 380px; height: 380px; border-radius: 9999px;
+    background: rgba(246, 241, 231, 0.06);
+  }
+  .auth-art::after {
+    content: ""; position: absolute; bottom: -180px; left: -120px;
+    width: 440px; height: 440px; border-radius: 9999px;
+    background: rgba(246, 241, 231, 0.04);
+  }
+  .auth-art > * { position: relative; z-index: 1; }
+
+  .auth-form-pane {
+    background: var(--paper);
+    padding: 80px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  @media (max-width: 880px) { .auth-form-pane { padding: 56px 32px; } }
+
+  .auth-stamp {
+    background: rgba(246, 241, 231, 0.08);
+    border: 1px solid rgba(246, 241, 231, 0.18);
+    backdrop-filter: blur(10px);
+    border-radius: var(--r-md);
+    padding: 24px 28px;
+    transform: rotate(-1.5deg);
+    max-width: 340px;
+    margin-top: 32px;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+  }
+  .auth-stamp .t1 {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #F2D9C9;
+    font-size: 15px;
+  }
+  .auth-stamp .t2 {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1.1;
+    margin-top: 6px;
+    letter-spacing: -0.02em;
+  }
+  .auth-stamp .div {
+    height: 1px;
+    background: rgba(246, 241, 231, 0.2);
+    margin: 16px 0;
+  }
+  .auth-stamp .t3 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(246, 241, 231, 0.6);
+    letter-spacing: 0.06em;
+    display: flex; justify-content: space-between;
+  }
+  .auth-stamp .t4 {
+    font-size: 13px;
+    margin-top: 12px;
+    display: flex; align-items: center; gap: 6px;
+    color: #F2D9C9;
+  }
+
+  .tab-switch {
+    display: inline-flex;
+    background: var(--paper-2);
+    padding: 4px;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .tab-switch button {
+    padding: 8px 22px;
+    border-radius: 9999px;
+    border: 0; background: transparent;
+    font-size: 13.5px; font-weight: 500;
+    color: var(--ink-3);
+  }
+  .tab-switch button.on {
+    background: var(--ink); color: var(--bg);
+  }
+
+  .phone-input-row { display: flex; gap: 10px; }
+  .phone-cc {
+    height: 52px; padding: 0 14px;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r);
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: 15px;
+    cursor: pointer;
+  }
+  .phone-cc:hover { border-color: var(--ink-3); }
+  .phone-cc .flag { font-size: 18px; }
+  .phone-num {
+    flex: 1; height: 52px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .or-divider {
+    display: flex; align-items: center; gap: 14px;
+    margin: 22px 0;
+  }
+  .or-divider .l { flex: 1; height: 1px; background: var(--line); }
+  .or-divider span { font-size: 12px; color: var(--ink-3); font-family: var(--font-mono); }
+
+  .sso-btn {
+    width: 100%; height: 52px;
+    background: var(--paper); border: 1px solid var(--line-strong);
+    border-radius: var(--r);
+    font-size: 14.5px; font-weight: 500; color: var(--ink);
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .sso-btn:hover { border-color: var(--ink); }
+
+  .verify-progress {
+    display: flex; gap: 8px; margin-bottom: 32px;
+  }
+  .verify-progress .seg {
+    flex: 1; height: 4px; border-radius: 9999px;
+    background: var(--line);
+  }
+  .verify-progress .seg.done { background: var(--brand); }
+  .verify-progress .seg.now { background: linear-gradient(90deg, var(--brand) 70%, var(--line) 70%); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Listings.html">Browse listings</a>
+      <a href="Handover Landing.html#how">How it works</a>
+      <a href="Handover Landing.html#trust">Safety</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost btn-sm">Need help?</a>
+    </div>
+  </div>
+</header>
+
+<main data-screen-label="Sign in">
+  <div class="container" style="padding: 0;">
+    <div class="auth-shell">
+
+      <!-- Visual side -->
+      <aside class="auth-art">
+        <div>
+          <div class="brand" style="color: white;">
+            <span class="brand-dot"></span>
+            <span class="brand-name" style="color: white;">Handover</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow" style="color: #F2D9C9;">
+            <span class="rule" style="background: #F2D9C9;"></span>
+            Welcome back
+          </div>
+          <h1 class="h-display" style="color: #F6F1E7; font-size: clamp(46px, 5vw, 64px); margin: 18px 0 0;">
+            One step closer to <em style="color: #D9B86E;">your keys.</em>
+          </h1>
+          <p style="margin: 22px 0 0; font-size: 17px; color: #F2D9C9; line-height: 1.55; max-width: 460px;">
+            We use your phone number as your login — no passwords to forget. NIN verification is one-time, takes 30 seconds, never shared publicly.
+          </p>
+
+          <div class="auth-stamp">
+            <div class="t1">Recent handover</div>
+            <div class="t2">Tunde → Boma</div>
+            <div class="div"></div>
+            <div class="t3"><span>21 MAY 2026</span><span>YABA · LAGOS</span></div>
+            <div class="t4"><i data-lucide="key-round" style="width: 14px; height: 14px;"></i> Keys handed over, retainment released.</div>
+          </div>
+        </div>
+
+        <div style="font-size: 12px; color: rgba(246, 241, 231, 0.6); font-family: var(--font-mono); letter-spacing: 0.06em;">
+          MADE IN LAGOS · EST. 2026
+        </div>
+      </aside>
+
+      <!-- Form side -->
+      <section class="auth-form-pane">
+        <div style="max-width: 420px; width: 100%; margin: 0 auto;">
+          <div class="tab-switch">
+            <button class="on" id="tab-signin" onclick="setMode('signin')">Sign in</button>
+            <button id="tab-signup" onclick="setMode('signup')">Create account</button>
+          </div>
+
+          <h2 class="h1" id="auth-heading" style="font-size: 40px; line-height: 1.04; margin: 0 0 8px;">
+            Sign in to <em>Handover.</em>
+          </h2>
+          <p class="muted" id="auth-sub" style="font-size: 15px; margin: 0 0 28px;">
+            We'll send a one-time code to your number.
+          </p>
+
+          <div class="field" id="name-field" style="display: none;">
+            <label class="label">Full name <span class="opt">— as on your NIN</span></label>
+            <input class="input" placeholder="e.g. Femi Adeyemi" />
+          </div>
+
+          <div class="field">
+            <label class="label">Phone number</label>
+            <div class="phone-input-row">
+              <div class="phone-cc">
+                <span class="flag">🇳🇬</span>
+                <span>+234</span>
+                <i data-lucide="chevron-down" style="width: 14px; height: 14px; color: var(--ink-3);"></i>
+              </div>
+              <input class="input phone-num" value="803 411 8829" />
+            </div>
+            <div class="hint">Same number we'll use for handover notifications.</div>
+          </div>
+
+          <a href="Handover Dashboard.html" class="btn btn-primary btn-lg btn-block" id="auth-submit" style="margin-top: 8px; height: 54px; font-size: 15px;">
+            Continue <i data-lucide="arrow-right"></i>
+          </a>
+
+          <div class="or-divider">
+            <div class="l"></div><span>OR</span><div class="l"></div>
+          </div>
+
+          <a href="Handover Dashboard.html" class="sso-btn" style="margin-bottom: 10px;">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.3c0-.78-.07-1.53-.2-2.25H12v4.26h5.9a5 5 0 0 1-2.2 3.3v2.7h3.55c2.08-1.92 3.28-4.74 3.28-8.01z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.55-2.75c-.98.66-2.23 1.05-3.73 1.05-2.87 0-5.3-1.94-6.16-4.54H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.13-1.44.34-2.1V7.07H2.18A11 11 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84C6.7 7.32 9.13 5.38 12 5.38z"/></svg>
+            Continue with Google
+          </a>
+          <a href="Handover Dashboard.html" class="sso-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.86-3.08.41-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.41C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            Continue with Apple
+          </a>
+
+          <p class="muted text-center" style="font-size: 12.5px; margin: 28px 0 0; line-height: 1.55;">
+            By continuing, you agree to Handover's <a href="#" style="color: var(--brand);">Terms</a> &amp; <a href="#" style="color: var(--brand);">Privacy</a>.<br>
+            We never sell your contact info to agents or landlords.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  lucide.createIcons();
+  function setMode(mode) {
+    var signin = mode === 'signin';
+    document.getElementById('tab-signin').classList.toggle('on', signin);
+    document.getElementById('tab-signup').classList.toggle('on', !signin);
+    document.getElementById('auth-heading').innerHTML = signin
+      ? 'Sign in to <em>Handover.</em>'
+      : 'Create your <em>Handover account.</em>';
+    document.getElementById('auth-sub').textContent = signin
+      ? "We'll send a one-time code to your number."
+      : 'Takes about 90 seconds. NIN verification comes after.';
+    document.getElementById('name-field').style.display = signin ? 'none' : 'block';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>House manual — Beachland Estate, Lekki — Handover</title>
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* Make it feel like a private document, not a marketing page */
+  body { background: var(--paper-2); }
+
+  .manual-shell {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 28px 96px;
+  }
+
+  .unlock-banner {
+    display: flex; align-items: center; gap: 18px;
+    padding: 22px 26px;
+    background: linear-gradient(120deg, var(--brand-soft) 0%, var(--paper) 100%);
+    border: 1px solid #E5BFA8;
+    border-radius: var(--r-md);
+    margin-bottom: 28px;
+  }
+  .unlock-banner .key-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: var(--brand); color: white;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px -6px hsl(16 55% 50% / 0.5);
+    flex-shrink: 0;
+  }
+  .unlock-banner .meta { flex: 1; }
+  .unlock-banner .meta b { font-size: 14.5px; color: var(--ink); font-weight: 600; }
+  .unlock-banner .meta .s { font-size: 13px; color: var(--brand-deep); margin-top: 3px; line-height: 1.45; }
+
+  .manual-head {
+    margin-bottom: 40px;
+  }
+  .manual-head .stamp {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 9999px;
+    margin-bottom: 16px;
+    background: var(--paper);
+  }
+  .manual-head .stamp .dot { width: 6px; height: 6px; background: var(--brand); border-radius: 9999px; }
+  .manual-head h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(46px, 5.5vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin: 0 0 14px;
+  }
+  .manual-head h1 em { color: var(--brand); }
+  .manual-head .by {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .manual-head .by .ava {
+    width: 36px; height: 36px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-size: 14px;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 22px 26px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 28px;
+  }
+  @media (max-width: 600px) { .toc { grid-template-columns: 1fr; } }
+  .toc .lbl {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    grid-column: 1 / -1;
+    margin-bottom: 4px;
+  }
+  .toc a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px dashed transparent;
+    color: var(--ink);
+  }
+  .toc a:hover { border-color: var(--line); color: var(--brand); }
+  .toc a .n {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-right: 12px;
+  }
+
+  /* Section */
+  .m-section {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 36px 40px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 600px) { .m-section { padding: 28px 24px; } }
+  .m-section .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--brand);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .m-section h2 {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    margin: 0 0 24px;
+  }
+  .m-section h2 em { color: var(--brand); }
+  .m-section .sub { font-size: 14.5px; color: var(--ink-3); margin: -16px 0 24px; line-height: 1.55; }
+
+  /* Contact card */
+  .contact-card {
+    display: flex; align-items: center; gap: 18px;
+    padding: 22px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    margin-bottom: 14px;
+  }
+  .contact-card .ava {
+    width: 56px; height: 56px;
+    border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    font-family: var(--font-serif); font-size: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-card .ava.ink { background: var(--ink); color: var(--sand); }
+  .contact-card .ava.plum { background: var(--plum); color: var(--brand-tint); }
+  .contact-card .info { flex: 1; min-width: 0; }
+  .contact-card .role {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .contact-card .nm { font-size: 17px; font-weight: 600; letter-spacing: -0.012em; }
+  .contact-card .note { font-size: 13px; color: var(--ink-2); margin-top: 4px; line-height: 1.45; }
+  .contact-card .phone {
+    font-family: var(--font-mono); font-size: 14px;
+    color: var(--ink); margin-top: 4px;
+  }
+  .contact-card .phone .copy {
+    font-size: 11px; color: var(--brand); margin-left: 8px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    border: 1px solid var(--brand-soft);
+  }
+  .contact-card .actions { display: flex; gap: 8px; }
+
+  /* Utility / numbers grid */
+  .util-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  @media (max-width: 600px) { .util-grid { grid-template-columns: 1fr; } }
+  .util-tile {
+    padding: 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+  }
+  .util-tile .k { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .util-tile .v {
+    font-family: var(--font-mono); font-size: 17px;
+    color: var(--ink); letter-spacing: 0.02em;
+  }
+  .util-tile .n {
+    font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.45;
+  }
+
+  /* Prose paragraph styling for personal notes */
+  .prose p {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    letter-spacing: -0.008em;
+    margin: 0 0 18px;
+  }
+  .prose p em { color: var(--brand); }
+  .prose p strong { color: var(--ink); font-weight: 500; }
+
+  /* Tip card (specific recurring trick) */
+  .tip {
+    display: flex; gap: 14px;
+    padding: 16px 18px;
+    background: #FAF4E6;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--sand);
+    border-radius: 0 var(--r) var(--r) 0;
+    margin-bottom: 12px;
+  }
+  .tip i { color: var(--sand); margin-top: 2px; flex-shrink: 0; }
+  .tip .t { font-size: 14.5px; line-height: 1.55; color: var(--ink); }
+  .tip .t b { font-weight: 600; }
+
+  /* Neighbourhood pin row */
+  .pin-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .pin-row:last-child { border-bottom: 0; }
+  .pin-row i {
+    color: var(--brand);
+    width: 18px; height: 18px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .pin-row .n { font-weight: 600; font-size: 15px; }
+  .pin-row .d { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; margin-top: 3px; }
+
+  /* Document footer */
+  .doc-foot {
+    text-align: center;
+    margin-top: 40px;
+    padding: 32px 0;
+    border-top: 1px dashed var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Dashboard.html">My handover</a>
+      <a href="Handover House Manual.html" style="color: var(--ink);">House manual</a>
+      <a href="Handover Messages.html">Messages</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-outline btn-sm"><i data-lucide="download"></i> Download PDF</button>
+      <button class="btn btn-outline btn-sm"><i data-lucide="printer"></i> Print</button>
+    </div>
+  </div>
+</header>
+
+<main data-screen-label="House manual" class="manual-shell">
+
+  <!-- Unlock banner -->
+  <div class="unlock-banner">
+    <div class="key-icon"><i data-lucide="unlock"></i></div>
+    <div class="meta">
+      <b>Unlocked by Adaeze on May 22, 2026 at 7:42 PM</b>
+      <div class="s">These are the things only the person who lived there could know. Keep this private — don't share with anyone outside this handover.</div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-align: right;">
+      HND-2026-08821<br>v1 · 14 pages
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="manual-head">
+    <span class="stamp"><span class="dot"></span>Private · Femi Adeyemi only</span>
+    <h1>3-bed at <em>Beachland</em>, Flat 3B.</h1>
+    <p class="lead" style="margin: 4px 0 0; max-width: 640px;">
+      Off Admiralty Way, Lekki Phase 1, Lagos. Everything I'd want to know if I were you, walking in with the keys for the first time.
+    </p>
+    <div class="by">
+      <div class="ava">AO</div>
+      <div>
+        Written by <strong>Adaeze Okonkwo</strong>, your outgoing tenant. 2 years lived here.
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="lbl">— Contents</div>
+    <a href="#people"><span><span class="n">01</span>People to know</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+    <a href="#utilities"><span><span class="n">02</span>Utilities &amp; bills</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+    <a href="#quirks"><span><span class="n">03</span>Quirks &amp; fixes</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+    <a href="#stays"><span><span class="n">04</span>What stays when I leave</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+    <a href="#hood"><span><span class="n">05</span>The neighbourhood</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+    <a href="#money"><span><span class="n">06</span>How rent &amp; service are paid</span><i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--ink-3);"></i></a>
+  </div>
+
+  <!-- 1. People -->
+  <section id="people" class="m-section">
+    <div class="num">— 01</div>
+    <h2>People <em>to know.</em></h2>
+    <p class="sub">In order of how often you'll need them.</p>
+
+    <div class="contact-card">
+      <div class="ava ink">OA</div>
+      <div class="info">
+        <div class="role">LANDLORD</div>
+        <div class="nm">Mr. Olabode Adekunle</div>
+        <div class="note">Owns the whole block. Lives in Surulere, comes by once every two months. Responds to WhatsApp within an hour, calls within 4. Doesn't like loud music after 10pm but won't make a thing of it.</div>
+        <div class="phone">+234 803 411 8829 <span class="copy">Copy</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary"><i data-lucide="phone-call"></i> Call</button>
+        <button class="btn btn-outline"><i data-lucide="message-circle"></i></button>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="ava">MA</div>
+      <div class="info">
+        <div class="role">GATEMAN · 24/7</div>
+        <div class="nm">Musa Abdullahi</div>
+        <div class="note">Older Hausa man, very kind, has been here 8 years. Receives all your packages. ₦5,000 Christmas dash is the norm. Speaks limited English — but his daughter Aisha (his shift relief) speaks fluent English.</div>
+        <div class="phone">+234 813 552 0019 <span class="copy">Copy</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline"><i data-lucide="phone-call"></i></button>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="ava plum">EA</div>
+      <div class="info">
+        <div class="role">ESTATE MANAGER</div>
+        <div class="nm">Mr. Akin Bamigbose</div>
+        <div class="note">Handle service charge issues, garbage pickup complaints, estate gen problems. Has a small office at the gatehouse, Mon-Fri 8am–4pm.</div>
+        <div class="phone">+234 803 442 1180 <span class="copy">Copy</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline"><i data-lucide="phone-call"></i></button>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="ava">SU</div>
+      <div class="info">
+        <div class="role">PLUMBER · I VOUCH FOR HIM</div>
+        <div class="nm">Engr. Sunday Okeoma</div>
+        <div class="note">Lives 3 streets away. ₦5,000 callout. Did our hot water heater &amp; the kitchen sink. Will give you a fair price.</div>
+        <div class="phone">+234 802 110 5547 <span class="copy">Copy</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline"><i data-lucide="phone-call"></i></button>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="ava">ME</div>
+      <div class="info">
+        <div class="role">ELECTRICIAN</div>
+        <div class="nm">Michael Eze</div>
+        <div class="note">Estate's go-to. Knows the building's wiring. Use him for anything you can't reach with a torch.</div>
+        <div class="phone">+234 906 778 4421 <span class="copy">Copy</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline"><i data-lucide="phone-call"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Utilities -->
+  <section id="utilities" class="m-section">
+    <div class="num">— 02</div>
+    <h2>Utilities &amp; <em>bills.</em></h2>
+    <p class="sub">What goes out, where, and how much.</p>
+
+    <div class="util-grid" style="margin-bottom: 18px;">
+      <div class="util-tile">
+        <div class="k">EKEDC meter no.</div>
+        <div class="v">04-31-7762-4451</div>
+        <div class="n">Prepaid. Buy tokens via Quickteller, EKEDC app, or any POS.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Average monthly electricity</div>
+        <div class="v">₦18,000 – ₦24,000</div>
+        <div class="n">Higher in Dec / Jan (harmattan, ACs run more). Lower in rainy season.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Estate water + waste + security</div>
+        <div class="v">Included in service</div>
+        <div class="n">You don't pay water or waste separately. Borehole is treated.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Service charge</div>
+        <div class="v">₦240,000 / year</div>
+        <div class="n">Paid annually with rent. Covers estate gen diesel, security, waste, common areas.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Internet — current setup</div>
+        <div class="v">Spectranet 30Mbps · ₦18,500/mo</div>
+        <div class="n">Router stays. They'll move the account into your name with one call.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Estate Wi-Fi (common areas)</div>
+        <div class="v">BEACHLAND_GUEST</div>
+        <div class="n">Password is on a sticker behind the gatehouse hut. Yes, behind. Trust me.</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <i data-lucide="lightbulb"></i>
+      <div class="t"><b>Reload prepaid at month-start, not when it's nearly out.</b> When you wait until the last day, the tokens take 2–3 hrs to load and you'll be in darkness during prime "cooking dinner" time.</div>
+    </div>
+  </section>
+
+  <!-- 3. Quirks -->
+  <section id="quirks" class="m-section">
+    <div class="num">— 03</div>
+    <h2>Quirks &amp; <em>fixes.</em></h2>
+    <p class="sub">The things that take a new tenant 3 months to figure out on their own.</p>
+
+    <div class="prose">
+      <p>
+        The hot water tap in the <em>master bath</em> needs a <strong>firm twist</strong> — it sticks otherwise. Don't force it sideways; just twist it like you mean it. I asked the plumber to fix it twice; he said it would take replacing the whole unit and honestly it works fine once you know the move.
+      </p>
+
+      <p>
+        The <em>generator switch</em> is in the kitchen drawer (the one closest to the fridge), <strong>not</strong> the panel. Don't ask why — it was already like this when I moved in. Push the switch up for "estate gen", down for "own gen" (you won't need own gen; the estate one runs 24/7).
+      </p>
+
+      <p>
+        The <em>balcony door slides</em> a bit hard in dry weather. Lift slightly as you slide. In harmattan, run a candle along the track once a week — sounds ridiculous, the wax actually fixes it.
+      </p>
+
+      <p>
+        <em>Front door key</em> works better when you turn it <strong>fully right twice</strong>, then back left a quarter. Lock cylinder is a bit worn. Don't bother changing it; landlord will say "the door is fine".
+      </p>
+
+      <p>
+        The <em>second guest bathroom</em> shower head has weak pressure — there's a small black valve under the sink in that bathroom. If a guest is staying, twist the valve <strong>fully open</strong> before they shower, then close it again after. Otherwise pressure across the flat drops.
+      </p>
+
+      <p>
+        <em>Fridge water dispenser</em> stopped working a year ago. The fix is to defrost the freezer once a year — there's a hidden ice block behind the back panel. Engr. Sunday can do it for ₦7,000 or you can YouTube it; it's not that hard.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. What stays -->
+  <section id="stays" class="m-section">
+    <div class="num">— 04</div>
+    <h2>What stays <em>when I leave.</em></h2>
+    <p class="sub">Listed here so there's no awkward "wait, where's the…" moment on move-in day.</p>
+
+    <div class="util-grid">
+      <div class="util-tile">
+        <div class="k">Kitchen</div>
+        <div class="v">Samsung double-door fridge</div>
+        <div class="n">2 years old, receipt in the kitchen drawer. Also: microwave, air fryer (still in box, wedding gift, never used), kettle, rice cooker.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Power</div>
+        <div class="v">3kVA inverter + 2 batteries</div>
+        <div class="n">Installed Jan 2024. Holds about 6 hrs on essentials (no AC, fridge + lights + Wi-Fi). Maintenance: top up water in the batteries every 4 months.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Cooling</div>
+        <div class="v">3 split-unit ACs (LG, 1.5HP)</div>
+        <div class="n">All recently serviced. Master and second bedroom are 2024 units; living room one is from 2022 but still strong.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Furniture (optional)</div>
+        <div class="v">Master bed + wardrobe</div>
+        <div class="n">If you want them. Otherwise I'll take them. Tell me by July 15 either way.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Soft furnishings</div>
+        <div class="v">Living room curtains + light fittings</div>
+        <div class="n">Custom-made to the windows. They stay because they wouldn't fit anywhere else anyway.</div>
+      </div>
+      <div class="util-tile">
+        <div class="k">Cleaning</div>
+        <div class="v">Mama Felicia</div>
+        <div class="n">Comes every Tuesday and Friday. ₦8,000 a session, brings her own cleaning supplies. I'll introduce you if you want to keep her.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Neighbourhood -->
+  <section id="hood" class="m-section">
+    <div class="num">— 05</div>
+    <h2>The <em>neighbourhood.</em></h2>
+    <p class="sub">My two years of accumulated opinions, free.</p>
+
+    <div class="pin-row">
+      <i data-lucide="utensils"></i>
+      <div>
+        <div class="n">Best suya — on Admiralty after 7pm, opposite Ebeano</div>
+        <div class="d">The guy with the red lamp. Avoid the one across from him; same suya, twice the price.</div>
+      </div>
+    </div>
+    <div class="pin-row">
+      <i data-lucide="route"></i>
+      <div>
+        <div class="n">Friday traffic on Lekki-Epe is fine until 5pm, brutal after</div>
+        <div class="d">If you're heading to the Island, leave by 4:30 or wait until 9pm. There's no in-between.</div>
+      </div>
+    </div>
+    <div class="pin-row">
+      <i data-lucide="shopping-bag"></i>
+      <div>
+        <div class="n">Shoprite Circle Mall vs Ebeano — they're different missions</div>
+        <div class="d">Shoprite for bulk and imported things. Ebeano for fresh veg, meat, and quick stops. Both 5 min away.</div>
+      </div>
+    </div>
+    <div class="pin-row">
+      <i data-lucide="cross"></i>
+      <div>
+        <div class="n">Reddington Hospital — 8 min, your default for anything</div>
+        <div class="d">More expensive than Lagoon, but they actually call you back. Save +234 1 271 1188 in your phone.</div>
+      </div>
+    </div>
+    <div class="pin-row">
+      <i data-lucide="users"></i>
+      <div>
+        <div class="n">Mama Felicia at flat 2C looks out for parcels</div>
+        <div class="d">If a courier won't wait for you at the gate, give them her number. She'll receive it. Pay her a little something each time — ₦500 is fine.</div>
+      </div>
+    </div>
+    <div class="pin-row">
+      <i data-lucide="dumbbell"></i>
+      <div>
+        <div class="n">Closest decent gym — JustFit Lekki, 6 min drive</div>
+        <div class="d">₦60,000/month or ₦450k/year. There's a small one inside Beachland itself but it's two treadmills and one of them limps.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Money / rent -->
+  <section id="money" class="m-section">
+    <div class="num">— 06</div>
+    <h2>How rent &amp; service <em>are paid.</em></h2>
+    <p class="sub">Save yourself the awkward first call.</p>
+
+    <div class="prose">
+      <p>
+        Mr. Olabode prefers <em>bank transfer</em>, not cash. His GTB account ends in 8821 — he'll send you the full details after you've signed. Don't use Opay or Kuda for the rent payment; he won't trust it and will ask you to redo it via "a real bank".
+      </p>
+      <p>
+        Rent is paid <strong>annually</strong>, in one go. He has never asked for a deposit on top of rent — that's unusual in Lagos, don't talk him out of it.
+      </p>
+      <p>
+        <em>Service charge</em> is paid <strong>separately to the estate</strong>, not to him. Mr. Akin will give you the estate's account. Pay early in the year (before March) — by Q3 there's always a "diesel scarcity contribution" they try to add.
+      </p>
+      <p>
+        Legal &amp; agreement on your first year: ~<em>₦80,000</em> to Mr. Olabode's solicitor (Tunde, of Adekunle Chambers). Don't try to negotiate it — it's his standard fee and he <strong>will</strong> stop the lease over it.
+      </p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="m-section" style="text-align: center;">
+    <h2 style="margin-bottom: 16px;">That's <em>it.</em></h2>
+    <p class="lead" style="font-size: 17px; max-width: 540px; margin: 0 auto;">
+      If anything comes up in the first 30 days that I forgot to mention, message me — I'll usually know the fix. After that, you'll know more about this flat than I ever did.
+    </p>
+    <div class="by" style="justify-content: center; margin-top: 28px;">
+      <div class="ava" style="width: 36px; height: 36px; border-radius: 9999px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 14px;">AO</div>
+      <div>— Adaeze · <a href="Handover Messages.html" style="color: var(--brand);">message me anytime</a></div>
+    </div>
+  </section>
+
+  <div class="doc-foot">
+    Document ID · HND-2026-08821 / MAN-V1 · Generated for Femi Adeyemi · 22 May 2026
+  </div>
+
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

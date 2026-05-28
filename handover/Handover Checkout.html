@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pay retainment — Handover</title>
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  .checkout-shell {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    padding: 48px 0 96px;
+    align-items: start;
+  }
+  @media (max-width: 960px) { .checkout-shell { grid-template-columns: 1fr; } }
+
+  .pay-stepper {
+    display: flex; gap: 4px; margin-bottom: 32px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pay-stepper .step {
+    display: flex; align-items: center; gap: 8px;
+    padding-right: 12px;
+  }
+  .pay-stepper .step .num {
+    width: 22px; height: 22px;
+    border-radius: 9999px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .pay-stepper .step.done .num { background: var(--brand); border-color: var(--brand); color: white; }
+  .pay-stepper .step.now { color: var(--ink); }
+  .pay-stepper .step.now .num { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .pay-stepper .arrow { color: var(--line-strong); }
+
+  .section-block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .section-block h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    margin: 0 0 6px;
+  }
+  .section-block .sub { color: var(--ink-3); font-size: 14px; margin: 0 0 20px; line-height: 1.5; }
+
+  .pay-method {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease;
+    margin-bottom: 10px;
+  }
+  .pay-method:hover { border-color: var(--ink-3); }
+  .pay-method.sel { border-color: var(--brand); background: var(--brand-tint); }
+  .pay-method .ico {
+    width: 48px; height: 32px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--ink), var(--ink-2));
+    color: var(--bg);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    flex-shrink: 0; letter-spacing: 0.04em;
+  }
+  .pay-method .ico.gtb { background: linear-gradient(135deg, #B85431, #8A3C20); }
+  .pay-method .ico.access { background: linear-gradient(135deg, #5C2E3C, #221C16); }
+  .pay-method .ico.visa { background: linear-gradient(135deg, #221C16, #4A3E33); }
+  .pay-method .ico.opay { background: linear-gradient(135deg, #5C7A4A, #3D5230); }
+  .pay-method .name { font-weight: 600; font-size: 15px; }
+  .pay-method .num { font-size: 12.5px; color: var(--ink-3); font-family: var(--font-mono); margin-top: 2px; }
+  .pay-method .radio {
+    width: 22px; height: 22px; border-radius: 9999px;
+    border: 2px solid var(--line-strong);
+    margin-left: auto; flex-shrink: 0;
+  }
+  .pay-method.sel .radio {
+    background: var(--brand); border-color: var(--brand);
+    box-shadow: inset 0 0 0 4px white;
+  }
+
+  .summary-card {
+    position: sticky; top: 92px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+  }
+  .summary-listing {
+    padding: 22px;
+    border-bottom: 1px dashed var(--line);
+    display: flex; gap: 14px;
+  }
+  .summary-listing .thumb {
+    width: 76px; height: 76px;
+    border-radius: var(--r);
+    background: repeating-linear-gradient(135deg, #F2D9C9 0 14px, #EBC4AC 14px 28px);
+    flex-shrink: 0;
+  }
+  .summary-listing .meta .city {
+    font-size: 12px; color: var(--ink-3);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .summary-listing .meta .name {
+    font-size: 14.5px; font-weight: 600; line-height: 1.3;
+    margin: 4px 0 6px;
+  }
+  .summary-listing .meta .seller {
+    font-size: 12px; color: var(--ink-2);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .summary-rows { padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; }
+  .summary-row .lbl { color: var(--ink-2); }
+  .summary-row .val { font-family: var(--font-serif); font-size: 18px; font-variant-numeric: tabular-nums; }
+  .summary-row.total {
+    padding-top: 14px;
+    margin-top: 4px;
+    border-top: 1px dashed var(--line);
+    font-weight: 600;
+  }
+  .summary-row.total .lbl { color: var(--ink); font-size: 14.5px; }
+  .summary-row.total .val { font-size: 30px; color: var(--brand); line-height: 1; }
+
+  .pay-cta {
+    padding: 0 22px 22px;
+  }
+  .pay-button {
+    width: 100%; height: 56px;
+    background: var(--brand); color: white;
+    border: 0; border-radius: 14px;
+    font-size: 15px; font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    box-shadow: 0 12px 28px -6px hsl(16 55% 50% / 0.4);
+  }
+  .pay-button:hover { background: var(--brand-deep); }
+
+  .timeline-mini {
+    display: flex; gap: 10px;
+    background: var(--paper-2);
+    padding: 14px 16px;
+    border-radius: 12px;
+    align-items: flex-start;
+    margin-top: 12px;
+  }
+  .timeline-mini i { color: var(--brand); margin-top: 1px; flex-shrink: 0; }
+  .timeline-mini .txt { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+
+  /* ---- Success modal (inline at bottom of page for design display) ---- */
+  .success-divider {
+    margin: 96px 0 64px;
+    text-align: center;
+    position: relative;
+  }
+  .success-divider::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 50%;
+    height: 1px; background: var(--line);
+  }
+  .success-divider span {
+    position: relative;
+    background: var(--bg);
+    padding: 0 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .success-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: linear-gradient(160deg, var(--paper) 0%, var(--brand-tint) 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    padding: 64px 48px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .success-card::before, .success-card::after {
+    content: ""; position: absolute; border-radius: 9999px;
+  }
+  .success-card::before { width: 220px; height: 220px; background: rgba(184, 84, 49, 0.12); right: -80px; top: -100px; }
+  .success-card::after { width: 160px; height: 160px; background: rgba(217, 184, 110, 0.18); left: -60px; bottom: -80px; }
+  .success-card > * { position: relative; z-index: 1; }
+
+  .success-tick {
+    width: 96px; height: 96px;
+    border-radius: 9999px;
+    background: var(--brand); color: white;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    box-shadow: 0 20px 40px -10px hsl(16 55% 50% / 0.5);
+  }
+  .success-card h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(44px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0 0 16px;
+  }
+  .success-card h2 em { color: var(--brand); }
+
+  .receipt-strip {
+    max-width: 460px; margin: 32px auto 0;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 22px;
+    text-align: left;
+  }
+  .receipt-id {
+    display: flex; justify-content: space-between;
+    padding-bottom: 14px; border-bottom: 1px dashed var(--line);
+    margin-bottom: 14px;
+  }
+  .receipt-id .k { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .receipt-id .v { font-family: var(--font-mono); font-size: 13px; color: var(--ink); margin-top: 3px; }
+
+  .next-steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-top: 36px; text-align: left;
+  }
+  @media (max-width: 700px) { .next-steps-grid { grid-template-columns: 1fr; } }
+  .next-step-card {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 22px;
+  }
+  .next-step-card .num {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--ink-3);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .next-step-card .t {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.012em;
+  }
+  .next-step-card .d {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <div class="flex items-center gap-2" style="font-size: 13px; color: var(--ink-3);">
+      <i data-lucide="shield-check" style="width: 14px; height: 14px; color: var(--brand);"></i>
+      Secure checkout · payment encrypted
+    </div>
+    <div class="nav-cta">
+      <a href="Handover Dashboard.html" class="btn btn-ghost btn-sm">Cancel</a>
+      <a href="Handover Sign In.html" class="btn btn-outline btn-sm">Need help?</a>
+    </div>
+  </div>
+</header>
+
+<main data-screen-label="Pay retainment">
+  <div class="container">
+
+    <!-- Breadcrumbs -->
+    <div style="padding: 24px 0 0;">
+      <a href="Handover Listing Detail.html" style="font-size: 13px; color: var(--ink-3); display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+        Back to the listing
+      </a>
+    </div>
+
+    <div class="checkout-shell">
+
+      <!-- ===== LEFT: form ===== -->
+      <div>
+        <h1 class="h1" style="margin: 16px 0 8px;">
+          Pay retainment to <em>secure this place.</em>
+        </h1>
+        <p class="lead" style="font-size: 17px; margin: 0 0 28px; max-width: 600px;">
+          ₦35,000 is held in escrow until you sign with the landlord. If the handover falls through, you get a full refund.
+        </p>
+
+        <!-- Stepper -->
+        <div class="pay-stepper">
+          <div class="step done"><span class="num"><i data-lucide="check" style="width: 12px; height: 12px;"></i></span>Listing</div>
+          <span class="arrow">→</span>
+          <div class="step now"><span class="num">2</span>Verify &amp; pay</div>
+          <span class="arrow">→</span>
+          <div class="step"><span class="num">3</span>Tenant confirms</div>
+          <span class="arrow">→</span>
+          <div class="step"><span class="num">4</span>Sign with landlord</div>
+          <span class="arrow">→</span>
+          <div class="step"><span class="num">5</span>Move in</div>
+        </div>
+
+        <!-- 1. Identity -->
+        <div class="section-block">
+          <h2>Quick identity check</h2>
+          <p class="sub">Outgoing tenants want to know who's about to live in their home. One-time only.</p>
+
+          <div class="grid grid-2" style="gap: 14px;">
+            <div class="card" style="padding: 18px; display: flex; gap: 14px; align-items: center;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="badge-check"></i>
+              </div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 14.5px;">NIN matched</div>
+                <div style="font-size: 12px; color: var(--ink-3); margin-top: 2px;">Femi Adeyemi</div>
+              </div>
+              <span class="badge badge-brand"><i data-lucide="check" style="width: 11px; height: 11px;"></i></span>
+            </div>
+            <div class="card" style="padding: 18px; display: flex; gap: 14px; align-items: center;">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="phone"></i>
+              </div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 14.5px;">Phone verified</div>
+                <div style="font-size: 12px; color: var(--ink-3); margin-top: 2px;">+234 803 ••• 8829</div>
+              </div>
+              <span class="badge badge-brand"><i data-lucide="check" style="width: 11px; height: 11px;"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Message to outgoing tenant -->
+        <div class="section-block">
+          <h2>A note to Adaeze</h2>
+          <p class="sub">She gets 48 hours to read this &amp; confirm you. Short and honest works best.</p>
+          <textarea class="textarea" rows="4" placeholder="Hi Adaeze, I work in tech, live alone (no parties), and I want a place I can stay in for at least 2 years. Let me know if there's anything else you'd like to know about me.">Hi Adaeze, I work in tech, live alone (no parties), and I want a place I can stay in for at least 2 years. Let me know if there's anything else you'd like to know about me.</textarea>
+          <div class="hint">She'll see your NIN-verified name and message, then accept or decline.</div>
+        </div>
+
+        <!-- 3. Payment method -->
+        <div class="section-block">
+          <h2>Pay with</h2>
+          <p class="sub">We use Paystack. Your card is charged once, the funds are held by Handover until move-in.</p>
+
+          <div class="pay-method sel">
+            <div class="ico gtb">GTB</div>
+            <div style="flex: 1;">
+              <div class="name">GTBank account · Pay with transfer</div>
+              <div class="num">Direct transfer · zero fees</div>
+            </div>
+            <div class="radio"></div>
+          </div>
+
+          <div class="pay-method">
+            <div class="ico visa">VISA</div>
+            <div style="flex: 1;">
+              <div class="name">Card ending 4582</div>
+              <div class="num">Femi A. · expires 12/27</div>
+            </div>
+            <div class="radio"></div>
+          </div>
+
+          <div class="pay-method">
+            <div class="ico opay">OP</div>
+            <div style="flex: 1;">
+              <div class="name">OPay wallet</div>
+              <div class="num">linked · ₦142,308 available</div>
+            </div>
+            <div class="radio"></div>
+          </div>
+
+          <div class="pay-method">
+            <div class="ico access">+</div>
+            <div style="flex: 1;">
+              <div class="name">Add a new card or bank</div>
+              <div class="num">Visa, Verve, Mastercard, all Nigerian banks</div>
+            </div>
+            <i data-lucide="chevron-right" style="color: var(--ink-3);"></i>
+          </div>
+        </div>
+
+        <!-- Trust panel -->
+        <div class="card" style="padding: 22px; background: var(--paper-2);">
+          <div style="display: flex; gap: 18px;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--ink); color: var(--bg); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div>
+              <div style="font-weight: 600; font-size: 14.5px; margin-bottom: 6px;">How your money is protected</div>
+              <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-2); line-height: 1.7;">
+                <li>Held by Handover, never sent to Adaeze directly</li>
+                <li>Released only when you confirm you've signed with the landlord</li>
+                <li>Full refund if Adaeze doesn't confirm within 48 hrs</li>
+                <li>Dispute window: 72 hrs after move-in</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RIGHT: summary ===== -->
+      <aside>
+        <div class="summary-card">
+          <div class="summary-listing">
+            <div class="thumb"></div>
+            <div class="meta">
+              <div class="city"><i data-lucide="map-pin" style="width: 12px; height: 12px;"></i>Lekki Phase 1, Lagos</div>
+              <div class="name">3-bed flat in a quiet close, fully serviced</div>
+              <div class="seller">
+                <span style="width: 22px; height: 22px; border-radius: 9999px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600;">AO</span>
+                From Adaeze · Available Aug 1
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-rows">
+            <div class="summary-row"><span class="lbl">Retainment to Adaeze</span><span class="val">₦35,000</span></div>
+            <div class="summary-row"><span class="lbl">Handover platform fee</span><span class="val">₦2,500</span></div>
+            <div class="summary-row total"><span class="lbl">You'll be charged today</span><span class="val">₦37,500</span></div>
+          </div>
+
+          <div class="pay-cta">
+            <button class="pay-button">
+              <i data-lucide="lock"></i> Pay ₦37,500 securely
+            </button>
+
+            <div class="timeline-mini">
+              <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+              <div class="txt">
+                <strong>You're paying now, but it's not gone.</strong> Adaeze gets paid only when you tell us the keys are yours.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 22px; font-size: 12px; color: var(--ink-3); display: flex; justify-content: center; align-items: center; gap: 8px;">
+          <i data-lucide="lock" style="width: 12px; height: 12px;"></i>
+          Encrypted · PCI-DSS · Powered by Paystack
+        </div>
+      </aside>
+    </div>
+
+    <!-- ============= SUCCESS STATE preview ============= -->
+    <div class="success-divider"><span>After payment</span></div>
+
+    <div class="success-card">
+      <div class="success-tick">
+        <i data-lucide="check" style="width: 44px; height: 44px; stroke-width: 2.5;"></i>
+      </div>
+      <h2>You're <em>first in line.</em></h2>
+      <p class="lead" style="font-size: 18px; max-width: 520px; margin: 0 auto;">
+        ₦37,500 charged and held safely. Adaeze has 48 hours to confirm — if she doesn't, we refund you automatically.
+      </p>
+
+      <div class="receipt-strip">
+        <div class="receipt-id">
+          <div>
+            <div class="k">Handover ID</div>
+            <div class="v">HND-2026-08821</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="k">Paid</div>
+            <div class="v">22 MAY 2026 · 14:08 WAT</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13.5px;">
+            <span style="color: var(--ink-2);">Retainment held for Adaeze</span>
+            <span class="amount">₦35,000</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13.5px;">
+            <span style="color: var(--ink-2);">Handover fee</span>
+            <span class="amount">₦2,500</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 14px; padding-top: 8px; border-top: 1px dashed var(--line); font-weight: 600;">
+            <span>Charged to GTB •••• 7821</span>
+            <span style="font-family: var(--font-serif); font-size: 24px; color: var(--brand);">₦37,500</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-steps-grid">
+        <div class="next-step-card">
+          <div class="num">— NEXT, WITHIN 48 HRS</div>
+          <div class="t">Adaeze reviews you &amp; confirms</div>
+          <div class="d">She sees your NIN-verified name and your note. You'll get a push notification the moment she accepts.</div>
+        </div>
+        <div class="next-step-card">
+          <div class="num">— THEN</div>
+          <div class="t">House manual unlocks</div>
+          <div class="d">Landlord's contact, meter number, gateman's WhatsApp, every quirk Adaeze knows about the place.</div>
+        </div>
+        <div class="next-step-card">
+          <div class="num">— FINALLY</div>
+          <div class="t">You sign &amp; move in</div>
+          <div class="d">Directly with the landlord, no agent. Standard agreement ~₦80k paid to his solicitor. Then confirm move-in here to release Adaeze's ₦35k.</div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 justify-center mt-12" style="flex-wrap: wrap;">
+        <a href="Handover Dashboard.html" class="btn btn-primary btn-lg">
+          See handover status <i data-lucide="arrow-right"></i>
+        </a>
+        <button class="btn btn-outline btn-lg">
+          <i data-lucide="download"></i> Download receipt
+        </button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

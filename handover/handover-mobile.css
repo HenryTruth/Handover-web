@@ -1,0 +1,628 @@
+/* Handover mobile app — shared screen styles
+   Loaded inside an IOSDevice frame.
+   Keep all selectors prefixed with .hm- to avoid collisions. */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+.hm-app {
+  height: 100%;
+  width: 100%;
+  font-family: "Geist", -apple-system, system-ui, sans-serif;
+  color: #221C16;
+  background: #F6F1E7;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+.hm-app * { box-sizing: border-box; }
+.hm-app button { font-family: inherit; cursor: pointer; }
+.hm-serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+.hm-mono { font-family: "Geist Mono", ui-monospace, monospace; }
+.hm-em { font-style: italic; color: #B85431; }
+
+/* ---- App header (after status bar inset) ---- */
+.hm-topbar {
+  padding: 56px 20px 12px;
+  background: rgba(246, 241, 231, 0.94);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.hm-topbar .hm-brand { display: inline-flex; align-items: center; gap: 6px; }
+.hm-topbar .hm-brand-dot { width: 7px; height: 7px; background: #B85431; border-radius: 9999px; }
+.hm-topbar .hm-brand-name { font-family: "Instrument Serif", serif; font-size: 24px; line-height: 1; letter-spacing: -0.01em; }
+.hm-iconbtn {
+  width: 38px; height: 38px; border-radius: 9999px;
+  background: #FFFBF3; border: 1px solid #E2D6BD;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #4A3E33;
+}
+.hm-iconbtn.hm-dot::after {
+  content: ""; position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px; border-radius: 9999px; background: #B85431;
+  border: 2px solid #F6F1E7;
+}
+.hm-iconbtn { position: relative; }
+
+/* ---- Content scroll ---- */
+.hm-scroll { flex: 1; overflow-y: auto; padding: 0 0 110px; }
+
+/* ---- Page title ---- */
+.hm-page-title {
+  font-family: "Instrument Serif", serif;
+  font-size: 38px; line-height: 1; letter-spacing: -0.022em;
+  padding: 4px 20px 6px;
+}
+.hm-page-sub { padding: 0 20px 16px; font-size: 14px; color: #877763; line-height: 1.45; }
+
+/* ---- Search ---- */
+.hm-search {
+  margin: 0 20px 8px;
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  border-radius: 14px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  font-size: 14.5px;
+  color: #877763;
+}
+.hm-search input {
+  border: 0; outline: 0; flex: 1; background: transparent;
+  font: inherit; color: #221C16;
+}
+
+/* ---- Pill row ---- */
+.hm-pills { display: flex; gap: 8px; padding: 12px 20px 16px; overflow-x: auto; }
+.hm-pills::-webkit-scrollbar { display: none; }
+.hm-pill {
+  white-space: nowrap;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  color: #4A3E33;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hm-pill.hm-on { background: #221C16; color: #F6F1E7; border-color: #221C16; }
+.hm-pill .hm-pill-ct { font-size: 11px; opacity: .6; }
+
+/* ---- Listing card (mobile) ---- */
+.hm-list { display: flex; flex-direction: column; gap: 16px; padding: 0 20px; }
+.hm-card {
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.hm-card-photo {
+  height: 200px; position: relative;
+  background:
+    repeating-linear-gradient(135deg, #F2D9C9 0 16px, #EBC4AC 16px 32px);
+}
+.hm-card-photo.alt { background: repeating-linear-gradient(135deg, #E8DDC6 0 16px, #DDD0B2 16px 32px); }
+.hm-card-photo.dim { background: repeating-linear-gradient(135deg, #C9B997 0 16px, #B8A684 16px 32px); }
+.hm-card-photo .hm-photo-label {
+  position: absolute; bottom: 12px; left: 12px;
+  background: rgba(255, 251, 243, 0.92);
+  border: 1px solid #E2D6BD;
+  font-family: "Geist Mono", monospace;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #4A3E33;
+}
+.hm-card-photo .hm-fav {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px; border-radius: 9999px;
+  background: rgba(255, 251, 243, 0.92);
+  border: 1px solid #E2D6BD;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #4A3E33;
+}
+.hm-card-photo .hm-status {
+  position: absolute; top: 12px; left: 12px;
+  background: #EFE7D6;
+  border: 1px solid #D9C893;
+  color: #6B5A2E;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.hm-card-photo .hm-status .pip { width: 5px; height: 5px; background: #6B5A2E; border-radius: 9999px; }
+.hm-card-body { padding: 14px 16px 16px; }
+.hm-card-loc { font-size: 12px; color: #877763; display: inline-flex; align-items: center; gap: 4px; }
+.hm-card-title { font-size: 16px; font-weight: 600; line-height: 1.3; letter-spacing: -0.012em; margin: 6px 0 8px; }
+.hm-card-meta { display: flex; gap: 12px; font-size: 12.5px; color: #877763; }
+.hm-card-meta .d { width: 3px; height: 3px; background: #877763; border-radius: 9999px; align-self: center; opacity: .5; }
+.hm-card-foot {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding-top: 12px; margin-top: 12px;
+  border-top: 1px dashed #E2D6BD;
+}
+.hm-card-price { font-family: "Instrument Serif", serif; font-size: 24px; line-height: 1; letter-spacing: -0.022em; font-variant-numeric: tabular-nums; }
+.hm-card-price .per { font-family: "Geist", sans-serif; font-size: 11px; color: #877763; margin-left: 3px; }
+.hm-card-retain { text-align: right; font-size: 10.5px; color: #877763; line-height: 1.3; }
+.hm-card-retain b { display: block; font-size: 13px; color: #B85431; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---- Bottom tab bar (iOS pill style) ---- */
+.hm-tabbar {
+  position: absolute;
+  bottom: 28px; left: 16px; right: 16px;
+  height: 64px;
+  background: rgba(255, 251, 243, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(226, 214, 189, 0.7);
+  border-radius: 22px;
+  display: flex; align-items: center; justify-content: space-around;
+  padding: 0 6px;
+  box-shadow: 0 8px 24px rgba(34, 28, 22, 0.08), 0 2px 8px rgba(34, 28, 22, 0.04);
+  z-index: 30;
+}
+.hm-tab {
+  flex: 1;
+  height: 52px;
+  border-radius: 18px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #877763;
+  background: transparent;
+  border: 0;
+  transition: background-color .15s;
+}
+.hm-tab.hm-on { color: #221C16; }
+.hm-tab.hm-on .hm-tab-ico {
+  background: #B85431;
+  color: white;
+  border-radius: 14px;
+}
+.hm-tab-ico {
+  width: 44px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ---- Listing detail screen ---- */
+.hm-hero {
+  height: 380px;
+  position: relative;
+  background:
+    repeating-linear-gradient(135deg, #F2D9C9 0 16px, #EBC4AC 16px 32px);
+}
+.hm-hero-glass {
+  position: absolute;
+  top: 56px; left: 16px; right: 16px;
+  display: flex; justify-content: space-between;
+}
+.hm-pill-glass {
+  width: 40px; height: 40px;
+  border-radius: 9999px;
+  background: rgba(255, 251, 243, 0.78);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 214, 189, 0.6);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #221C16;
+}
+.hm-hero-photo-pager {
+  position: absolute;
+  bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: rgba(34, 28, 22, 0.72);
+  color: #F6F1E7;
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 9999px;
+}
+
+.hm-detail-body {
+  background: #F6F1E7;
+  border-radius: 28px 28px 0 0;
+  margin-top: -28px;
+  position: relative;
+  padding: 24px 20px 40px;
+}
+.hm-detail-tagline { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.hm-tag-mini {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 9px; border-radius: 9999px;
+  font-size: 11px; font-weight: 500;
+  background: #EFE7D6; color: #6B5A2E; border: 1px solid #D9C893;
+}
+.hm-tag-mini.brand { background: #F2D9C9; color: #8A3C20; border-color: #E5BFA8; }
+.hm-tag-mini .pip { width: 5px; height: 5px; background: currentColor; border-radius: 9999px; }
+.hm-detail-title {
+  font-family: "Instrument Serif", serif;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  margin: 4px 0 10px;
+}
+.hm-detail-loc { font-size: 13px; color: #4A3E33; display: inline-flex; align-items: center; gap: 5px; }
+
+.hm-stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  border-radius: 16px;
+  margin: 18px 0;
+  overflow: hidden;
+}
+.hm-stat-row > div {
+  padding: 14px 16px;
+  border-right: 1px solid #E2D6BD;
+  border-bottom: 1px solid #E2D6BD;
+}
+.hm-stat-row > div:nth-child(2n) { border-right: 0; }
+.hm-stat-row > div:nth-last-child(-n+2) { border-bottom: 0; }
+.hm-stat-row .k { font-size: 11px; color: #877763; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.hm-stat-row .v { font-family: "Instrument Serif", serif; font-size: 22px; line-height: 1; letter-spacing: -0.018em; }
+.hm-stat-row .v small { font-family: "Geist", sans-serif; font-size: 11px; color: #877763; }
+
+.hm-section-h {
+  font-family: "Instrument Serif", serif;
+  font-size: 22px;
+  letter-spacing: -0.018em;
+  margin: 20px 0 12px;
+  line-height: 1.15;
+}
+
+.hm-person-card {
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.hm-avatar {
+  width: 52px; height: 52px; border-radius: 9999px;
+  background: #F2D9C9; color: #8A3C20;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: "Instrument Serif", serif;
+  font-size: 20px;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+.hm-person-card .meta { flex: 1; }
+.hm-person-card .meta b { font-size: 15px; font-weight: 600; }
+.hm-person-card .meta .l { font-size: 12px; color: #877763; margin-top: 2px; }
+
+.hm-quote {
+  background: #EFE7D6;
+  border-left: 3px solid #B85431;
+  padding: 18px 18px 16px;
+  border-radius: 0 12px 12px 0;
+  margin: 8px 0;
+}
+.hm-quote p {
+  font-family: "Instrument Serif", serif;
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 0 0 6px;
+}
+.hm-quote .who { font-size: 11px; color: #877763; }
+
+.hm-feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+.hm-feature-list .row { font-size: 13px; display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.hm-feature-list .row svg { color: #B85431; }
+
+/* ---- Sticky CTA at bottom of listing detail ---- */
+.hm-cta-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(246, 241, 231, 0.96);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid #E2D6BD;
+  padding: 14px 16px 38px;
+  display: flex; gap: 12px; align-items: center;
+  z-index: 20;
+}
+.hm-cta-bar .price-stack { flex: 1; }
+.hm-cta-bar .price-stack .lbl { font-size: 11px; color: #877763; }
+.hm-cta-bar .price-stack .val {
+  font-family: "Instrument Serif", serif;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: #221C16;
+  line-height: 1;
+}
+.hm-cta-bar .price-stack .sub { font-size: 11px; color: #877763; margin-top: 2px; }
+.hm-cta-bar button.hm-btn-pay {
+  height: 52px; padding: 0 22px;
+  border: 0; border-radius: 14px;
+  background: #B85431; color: white;
+  font-weight: 600; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 6px 16px -4px rgba(184, 84, 49, 0.4);
+}
+
+/* ---- Bottom sheet ---- */
+.hm-sheet-shade {
+  position: absolute; inset: 0;
+  background: rgba(34, 28, 22, 0.4);
+  display: flex; align-items: flex-end;
+  z-index: 20;
+}
+.hm-sheet {
+  width: 100%;
+  background: #F6F1E7;
+  border-radius: 28px 28px 0 0;
+  padding: 14px 22px 40px;
+  box-shadow: 0 -16px 40px rgba(0,0,0,0.18);
+  max-height: 86%;
+  overflow-y: auto;
+}
+.hm-sheet-grip {
+  width: 38px; height: 5px;
+  background: #C9B997;
+  border-radius: 9999px;
+  margin: 0 auto 14px;
+}
+.hm-sheet-h {
+  font-family: "Instrument Serif", serif;
+  font-size: 28px;
+  letter-spacing: -0.022em;
+  line-height: 1.06;
+  margin: 6px 0 6px;
+}
+.hm-sheet-sub { font-size: 13.5px; color: #4A3E33; line-height: 1.45; margin-bottom: 16px; }
+
+/* ---- Form bits ---- */
+.hm-field { margin-bottom: 14px; }
+.hm-label { font-size: 12px; font-weight: 600; color: #4A3E33; margin-bottom: 6px; display: block; }
+.hm-input, .hm-textarea {
+  width: 100%; height: 48px; padding: 0 14px;
+  background: #FFFBF3; border: 1px solid #E2D6BD;
+  border-radius: 12px; font: inherit; font-size: 15px;
+  color: #221C16; outline: none;
+}
+.hm-textarea { height: auto; padding: 12px 14px; min-height: 90px; resize: none; line-height: 1.5; }
+.hm-input:focus, .hm-textarea:focus { border-color: #B85431; }
+
+/* ---- Toggle pill grid ---- */
+.hm-toggle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hm-toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px;
+  background: #FFFBF3; border: 1px solid #E2D6BD;
+  border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+}
+.hm-toggle.hm-on { background: #221C16; color: #F6F1E7; border-color: #221C16; }
+
+/* ---- Step progress (for post listing) ---- */
+.hm-step-progress {
+  height: 4px;
+  background: #E2D6BD;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 0 20px 16px;
+}
+.hm-step-progress .bar { height: 100%; background: #B85431; border-radius: 9999px; }
+.hm-step-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  color: #877763;
+  margin: 0 20px 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---- Handover status timeline ---- */
+.hm-timeline {
+  display: flex; flex-direction: column;
+  position: relative;
+  padding-left: 14px;
+}
+.hm-timeline::before {
+  content: ""; position: absolute;
+  top: 18px; bottom: 24px; left: 13px; width: 2px;
+  background: linear-gradient(to bottom, #B85431 0%, #B85431 40%, #E2D6BD 40%);
+}
+.hm-tl-step { display: flex; gap: 14px; padding: 8px 0 18px; position: relative; }
+.hm-tl-dot {
+  width: 28px; height: 28px; border-radius: 9999px;
+  background: #FFFBF3; border: 2px solid #E2D6BD;
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  color: #877763;
+}
+.hm-tl-step.done .hm-tl-dot { background: #B85431; border-color: #B85431; color: white; }
+.hm-tl-step.now .hm-tl-dot {
+  background: #B85431; border: 2px solid #F2D9C9; color: white;
+  box-shadow: 0 0 0 4px rgba(184, 84, 49, 0.2);
+}
+.hm-tl-body .t { font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+.hm-tl-body .s { font-size: 12.5px; color: #877763; margin-top: 3px; line-height: 1.4; }
+.hm-tl-body .ts { font-family: "Geist Mono", monospace; font-size: 10.5px; color: #C9B997; margin-top: 6px; }
+
+/* ---- Manual unlocked ---- */
+.hm-manual-card {
+  background: #FFFBF3; border: 1px solid #E2D6BD;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.hm-manual-card .h {
+  font-family: "Geist Mono", monospace;
+  font-size: 10.5px;
+  color: #877763;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.hm-manual-card .row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #E2D6BD;
+  font-size: 14px;
+}
+.hm-manual-card .row:last-child { border-bottom: 0; }
+.hm-manual-card .row .lbl { color: #4A3E33; }
+.hm-manual-card .row .val { font-weight: 600; font-variant-numeric: tabular-nums; }
+.hm-manual-card .row .val a { color: #B85431; }
+.hm-manual-call {
+  display: flex; gap: 10px; margin-top: 12px;
+}
+.hm-manual-call button {
+  flex: 1; height: 42px;
+  border: 0; border-radius: 12px;
+  background: #221C16; color: #F6F1E7;
+  font-size: 13px; font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.hm-manual-call button.brand { background: #B85431; }
+
+/* ---- Onboarding ---- */
+.hm-onb {
+  height: 100%; display: flex; flex-direction: column;
+  padding: 0 24px 36px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 12%, #F2D9C9 0%, transparent 60%),
+    linear-gradient(180deg, #F6F1E7 0%, #EFE7D6 100%);
+}
+.hm-onb-art {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative;
+  padding-top: 50px;
+}
+.hm-onb-art .stamp {
+  width: 220px;
+  background: #FFFBF3;
+  border: 1px solid #E2D6BD;
+  border-radius: 18px;
+  padding: 22px 24px;
+  transform: rotate(-3deg);
+  box-shadow: 0 20px 40px -10px rgba(34, 28, 22, 0.15);
+  position: relative;
+}
+.hm-onb-art .stamp .t1 { font-family: "Instrument Serif", serif; font-style: italic; color: #B85431; font-size: 14px; }
+.hm-onb-art .stamp .t2 { font-family: "Instrument Serif", serif; font-size: 28px; line-height: 1.1; margin-top: 4px; }
+.hm-onb-art .stamp .div { height: 1px; background: #E2D6BD; margin: 14px 0; }
+.hm-onb-art .stamp .t3 { font-family: "Geist Mono", monospace; font-size: 10px; color: #877763; letter-spacing: 0.06em; display: flex; justify-content: space-between; }
+.hm-onb-art .stamp .t4 { font-size: 12.5px; margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+.hm-onb-art .key {
+  position: absolute;
+  right: 36px; top: 30px;
+  width: 70px; height: 70px;
+  border-radius: 9999px;
+  background: #B85431;
+  color: white;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 24px -8px rgba(184, 84, 49, 0.6);
+  transform: rotate(12deg);
+}
+.hm-onb h1 {
+  font-family: "Instrument Serif", serif;
+  font-size: 44px; line-height: 1; letter-spacing: -0.025em;
+  font-weight: 400; margin: 0;
+}
+.hm-onb h1 em { color: #B85431; }
+.hm-onb p {
+  font-size: 15.5px; line-height: 1.5; color: #4A3E33;
+  margin: 16px 0 24px;
+}
+.hm-onb .btn-row { display: flex; flex-direction: column; gap: 10px; }
+.hm-onb .btn-primary {
+  height: 54px; border: 0; border-radius: 16px;
+  background: #221C16; color: #F6F1E7;
+  font-size: 15px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.hm-onb .btn-outline {
+  height: 54px; border: 1px solid #C9B997;
+  background: transparent; color: #221C16;
+  border-radius: 16px;
+  font-size: 15px; font-weight: 600;
+}
+
+/* ---- Pay sheet (full screen variant) ---- */
+.hm-pay-receipt {
+  background: #FFFBF3; border: 1px solid #E2D6BD;
+  border-radius: 18px; padding: 18px; margin-top: 12px;
+}
+.hm-pay-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 7px 0; font-size: 14px; color: #4A3E33;
+}
+.hm-pay-row.total {
+  border-top: 1px dashed #E2D6BD; padding-top: 12px; margin-top: 6px;
+  color: #221C16; font-weight: 600; font-size: 16px;
+}
+.hm-pay-row .amt { font-family: "Instrument Serif", serif; font-size: 17px; }
+.hm-pay-row.total .amt { font-size: 28px; color: #B85431; line-height: 1; }
+.hm-pay-method {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px; background: #FFFBF3;
+  border: 1px solid #E2D6BD; border-radius: 14px;
+  margin-bottom: 8px;
+}
+.hm-pay-method .ico {
+  width: 40px; height: 28px; border-radius: 6px;
+  background: linear-gradient(135deg, #221C16, #4A3E33);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #F6F1E7; font-family: "Geist Mono", monospace; font-size: 9px;
+  flex-shrink: 0;
+}
+.hm-pay-method .ico.bank { background: linear-gradient(135deg, #B85431, #8A3C20); }
+.hm-pay-method .name { font-weight: 600; font-size: 14px; }
+.hm-pay-method .num { font-size: 12px; color: #877763; font-family: "Geist Mono", monospace; }
+.hm-pay-method .radio { width: 22px; height: 22px; border-radius: 9999px; border: 2px solid #C9B997; }
+.hm-pay-method.sel { border-color: #B85431; }
+.hm-pay-method.sel .radio { border-color: #B85431; background: #B85431; box-shadow: inset 0 0 0 3px #FFFBF3; }
+
+/* ---- Filter sheet ---- */
+.hm-filter-section { margin-bottom: 22px; }
+.hm-filter-section h4 {
+  font-size: 12px; font-weight: 600; color: #221C16;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin: 0 0 10px;
+}
+.hm-range-track {
+  height: 4px; background: #E2D6BD; border-radius: 9999px;
+  position: relative; margin: 18px 0 28px;
+}
+.hm-range-track .fill {
+  position: absolute; top: 0; bottom: 0;
+  left: 18%; right: 28%;
+  background: #B85431; border-radius: 9999px;
+}
+.hm-range-track .knob {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 24px; height: 24px; border-radius: 9999px;
+  background: #FFFBF3; border: 3px solid #B85431;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.hm-range-labels {
+  display: flex; justify-content: space-between;
+  font-family: "Geist Mono", monospace;
+  font-size: 11px;
+  color: #877763;
+  margin-top: -18px;
+}
+.hm-range-labels b { color: #221C16; font-weight: 600; }
+
+/* ---- Empty space for tabbar bottom margin ---- */
+.hm-tabbar-pad { height: 100px; }

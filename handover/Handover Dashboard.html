@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your handover — Handover</title>
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  .dash-shell {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+    padding: 32px 0 96px;
+    align-items: start;
+  }
+  @media (max-width: 980px) { .dash-shell { grid-template-columns: 1fr; } .dash-sidebar { position: static !important; } }
+
+  /* ===== Sidebar ===== */
+  .dash-sidebar {
+    position: sticky; top: 92px;
+  }
+  .dash-userpill {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    margin-bottom: 16px;
+  }
+  .dash-userpill .ava {
+    width: 40px; height: 40px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-size: 17px;
+    flex-shrink: 0;
+  }
+  .dash-userpill .nm { font-size: 14px; font-weight: 600; }
+  .dash-userpill .em { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+
+  .nav-section { margin-bottom: 6px; }
+  .nav-section .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 16px 14px 8px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--r);
+    color: var(--ink-2);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--paper); color: var(--ink); }
+  .nav-item.on {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .nav-item i { color: var(--ink-3); width: 16px; height: 16px; flex-shrink: 0; }
+  .nav-item.on i { color: var(--brand); }
+  .nav-item .pip {
+    margin-left: auto;
+    background: var(--brand);
+    color: white;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  /* ===== Hero status card ===== */
+  .status-hero {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: var(--r-xl);
+    padding: 36px;
+    position: relative; overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .status-hero::before {
+    content: ""; position: absolute; right: -100px; top: -100px;
+    width: 280px; height: 280px;
+    background: rgba(184, 84, 49, 0.22);
+    border-radius: 9999px;
+  }
+  .status-hero::after {
+    content: ""; position: absolute; right: 60px; bottom: -80px;
+    width: 200px; height: 200px;
+    background: rgba(217, 184, 110, 0.14);
+    border-radius: 9999px;
+  }
+  .status-hero > * { position: relative; z-index: 1; }
+  .status-hero .step-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--sand);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .status-hero h2 {
+    font-family: var(--font-serif);
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 14px;
+    color: var(--bg);
+    max-width: 540px;
+  }
+  .status-hero h2 em { color: var(--sand); }
+  .status-hero p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #C9BDAC;
+    margin: 0 0 28px;
+    max-width: 540px;
+  }
+  .status-hero .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .status-hero .btn-clay-on-ink {
+    background: var(--brand); color: white;
+    height: 50px; padding: 0 22px;
+    border: 0; border-radius: 12px;
+    font-weight: 600; font-size: 14.5px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .status-hero .btn-ghost-on-ink {
+    background: rgba(246, 241, 231, 0.1);
+    color: var(--bg);
+    border: 1px solid rgba(246, 241, 231, 0.18);
+    height: 50px; padding: 0 22px; border-radius: 12px;
+    font-weight: 500; font-size: 14.5px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  /* ===== Two-column area ===== */
+  .dash-two-col {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 900px) { .dash-two-col { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 24px;
+  }
+  .panel-h {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 18px;
+  }
+  .panel-h h3 {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    letter-spacing: -0.018em;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .panel-h h3 em { color: var(--brand); }
+  .panel-h .link { font-size: 13px; color: var(--brand); font-weight: 500; }
+
+  /* ===== Timeline ===== */
+  .tl-list {
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .tl-list::before {
+    content: ""; position: absolute;
+    top: 18px; bottom: 24px; left: 13px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--brand) 0 65%, var(--line) 65%);
+  }
+  .tl-step {
+    display: flex; gap: 14px;
+    padding: 6px 0 18px;
+    position: relative;
+  }
+  .tl-step .dot {
+    width: 28px; height: 28px; border-radius: 9999px;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .tl-step.done .dot { background: var(--brand); border-color: var(--brand); color: white; }
+  .tl-step.now .dot {
+    background: var(--brand);
+    border: 2px solid var(--brand-soft);
+    color: white;
+    box-shadow: 0 0 0 4px hsl(16 55% 50% / 0.18);
+  }
+  .tl-step .body .t { font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .tl-step .body .s { font-size: 13px; color: var(--ink-3); margin-top: 3px; line-height: 1.5; }
+  .tl-step .body .ts { font-family: var(--font-mono); font-size: 10.5px; color: var(--line-strong); margin-top: 8px; letter-spacing: 0.04em; }
+
+  /* ===== Property + people ===== */
+  .person-row {
+    display: flex; gap: 12px; align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .person-row:first-of-type { padding-top: 0; }
+  .person-row:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  .person-row .ava {
+    width: 40px; height: 40px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-size: 15px;
+    flex-shrink: 0;
+  }
+  .person-row .ava.ink { background: var(--ink); color: var(--sand); }
+  .person-row .role { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .person-row .nm { font-size: 14px; font-weight: 600; }
+  .person-row .meta { flex: 1; min-width: 0; }
+
+  /* ===== Money breakdown ===== */
+  .money-row { display: flex; justify-content: space-between; font-size: 14px; padding: 8px 0; }
+  .money-row.total {
+    margin-top: 6px; padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    font-weight: 600;
+  }
+  .money-row .amt { font-family: var(--font-serif); font-size: 18px; font-variant-numeric: tabular-nums; }
+  .money-row.total .amt { font-size: 28px; color: var(--brand); line-height: 1; }
+  .money-row.due { color: var(--brand-deep); }
+  .money-row.due .amt { color: var(--brand); }
+
+  /* ===== Listings cards in dashboard ===== */
+  .mini-list-card {
+    display: flex; gap: 14px;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 16px; margin-bottom: 12px;
+  }
+  .mini-list-card .thumb {
+    width: 84px; height: 84px;
+    border-radius: var(--r);
+    flex-shrink: 0;
+    background: repeating-linear-gradient(135deg, #F2D9C9 0 14px, #EBC4AC 14px 28px);
+  }
+  .mini-list-card .body { flex: 1; }
+  .mini-list-card .nm { font-size: 15px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+  .mini-list-card .meta { font-size: 12.5px; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+  .mini-list-card .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .mini-list-card .stat .v {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: -0.018em;
+    line-height: 1;
+  }
+  .mini-list-card .stat .v.brand { color: var(--brand); }
+  .mini-list-card .stat .k {
+    font-size: 10.5px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
+  }
+
+  /* ===== Stat row ===== */
+  .quick-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; margin-bottom: 24px;
+  }
+  @media (max-width: 700px) { .quick-stats { grid-template-columns: repeat(2, 1fr); } }
+  .qs-card {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r-md); padding: 20px;
+  }
+  .qs-card .k {
+    font-size: 11.5px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .qs-card .v {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.022em;
+  }
+  .qs-card .v em { color: var(--brand); font-style: italic; }
+  .qs-card .delta { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+
+  .help-strip {
+    margin-top: 28px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brand);
+    padding: 18px 22px;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .help-strip .ico {
+    width: 36px; height: 36px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .help-strip .txt { flex: 1; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+  .help-strip .txt b { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Listings.html">Browse</a>
+      <a href="Handover Post Listing.html">List your place</a>
+      <a href="Handover Dashboard.html" style="color: var(--ink);">My handovers</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="Handover Messages.html" class="btn btn-ghost btn-sm" style="position: relative;">
+        <i data-lucide="message-circle"></i>
+        <span style="position: absolute; top: 4px; right: 6px; width: 8px; height: 8px; background: var(--brand); border-radius: 9999px; border: 2px solid var(--paper);"></span>
+      </a>
+      <a href="Handover Dashboard.html" class="btn btn-outline btn-sm" style="padding: 0 6px 0 14px; gap: 8px;">
+        Femi A.
+        <span style="width: 28px; height: 28px; border-radius: 9999px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 13px;">FA</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main data-screen-label="Dashboard">
+  <div class="container dash-shell">
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="dash-sidebar">
+      <div class="dash-userpill">
+        <div class="ava">FA</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">Femi Adeyemi</div>
+          <div class="em"><i data-lucide="badge-check" style="width: 11px; height: 11px; color: var(--brand);"></i>Fully verified</div>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="label">Active</div>
+        <a href="Handover Dashboard.html" class="nav-item on"><i data-lucide="key-round"></i>Your handover</a>
+        <a href="Handover Messages.html" class="nav-item"><i data-lucide="message-circle"></i>Messages<span class="pip">2</span></a>
+        <a href="Handover House Manual.html" class="nav-item"><i data-lucide="file-text"></i>House manual</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="label">For tenants</div>
+        <a href="Handover Listings.html" class="nav-item"><i data-lucide="bookmark"></i>Saved listings</a>
+        <a href="Handover Listings.html" class="nav-item"><i data-lucide="search"></i>Browse</a>
+        <a href="Handover Dashboard.html" class="nav-item"><i data-lucide="history"></i>Past handovers</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="label">As outgoing tenant</div>
+        <a href="Handover Post Listing.html" class="nav-item"><i data-lucide="home"></i>My listings<span class="pip">1</span></a>
+        <a href="Handover Messages.html" class="nav-item"><i data-lucide="users"></i>Interested<span class="pip">3</span></a>
+        <a href="Handover Dashboard.html" class="nav-item"><i data-lucide="banknote"></i>Payouts</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="label">Account</div>
+        <a href="Handover Sign In.html" class="nav-item"><i data-lucide="badge-check"></i>Verification</a>
+        <a href="Handover Checkout.html" class="nav-item"><i data-lucide="credit-card"></i>Payment methods</a>
+        <a href="Handover Dashboard.html" class="nav-item"><i data-lucide="settings"></i>Settings</a>
+        <a href="Handover Landing.html#faq" class="nav-item"><i data-lucide="life-buoy"></i>Help &amp; disputes</a>
+      </div>
+    </aside>
+
+    <!-- ===== Main ===== -->
+    <div>
+      <!-- Quick context line -->
+      <div class="flex items-center justify-between" style="margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div class="eyebrow" style="margin-bottom: 6px;"><span class="rule"></span>Active handover · HND-2026-08821</div>
+          <h1 class="h1" style="font-size: 38px; margin: 0;">Your handover with <em>Adaeze.</em></h1>
+        </div>
+        <button class="btn btn-outline btn-sm"><i data-lucide="more-horizontal"></i></button>
+      </div>
+
+      <!-- Hero status card -->
+      <div class="status-hero">
+        <div class="step-meta">Step 3 of 4 · in progress</div>
+        <h2>Now meet the <em>landlord.</em></h2>
+        <p>
+          Mr. Olabode is expecting your call. Adaeze has briefed him. Sign the agreement with him directly, then come back here to confirm you've signed — and on move-in day we'll release Adaeze's retainment.
+        </p>
+        <div class="actions">
+          <button class="btn-clay-on-ink"><i data-lucide="phone-call"></i> Call Mr. Olabode</button>
+          <button class="btn-ghost-on-ink"><i data-lucide="message-circle"></i> WhatsApp him</button>
+          <button class="btn-ghost-on-ink"><i data-lucide="check"></i> I've signed</button>
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="quick-stats">
+        <div class="qs-card">
+          <div class="k">Time in escrow</div>
+          <div class="v"><em>02</em>:14:33</div>
+          <div class="delta">Days since you paid retainment</div>
+        </div>
+        <div class="qs-card">
+          <div class="k">Move-in</div>
+          <div class="v">Aug 1<span style="font-family: var(--font-sans); font-size: 14px; color: var(--ink-3);">'26</span></div>
+          <div class="delta">In 71 days</div>
+        </div>
+        <div class="qs-card">
+          <div class="k">Retainment held</div>
+          <div class="v" style="color: var(--brand);">₦35K</div>
+          <div class="delta">Released to Adaeze on move-in</div>
+        </div>
+        <div class="qs-card">
+          <div class="k">Still to pay</div>
+          <div class="v"><em>₦4.82M</em></div>
+          <div class="delta">Rent + service + legal · to landlord</div>
+        </div>
+      </div>
+
+      <!-- Two col: timeline + sidebar -->
+      <div class="dash-two-col">
+        <div class="panel">
+          <div class="panel-h">
+            <h3>What's happened <em>so far</em></h3>
+            <a href="#" class="link">View full log</a>
+          </div>
+
+          <div class="tl-list">
+            <div class="tl-step done">
+              <div class="dot"><i data-lucide="check" style="width: 13px; height: 13px;"></i></div>
+              <div class="body">
+                <div class="t">Retainment paid</div>
+                <div class="s">₦37,500 charged to GTB •••• 7821. Held by Handover.</div>
+                <div class="ts">MAY 22 · 14:08 WAT · receipt sent to your email</div>
+              </div>
+            </div>
+            <div class="tl-step done">
+              <div class="dot"><i data-lucide="check" style="width: 13px; height: 13px;"></i></div>
+              <div class="body">
+                <div class="t">Adaeze confirmed you</div>
+                <div class="s">House manual unlocked. Landlord's contact &amp; the rest of the details are now visible to you.</div>
+                <div class="ts">MAY 22 · 19:42 WAT · 5 hrs 34 min</div>
+              </div>
+            </div>
+            <div class="tl-step now">
+              <div class="dot"><i data-lucide="phone" style="width: 12px; height: 12px;"></i></div>
+              <div class="body">
+                <div class="t">Meet landlord &amp; sign tenancy</div>
+                <div class="s">You handle this directly with Mr. Olabode Adekunle. Standard agreement &amp; legal: ~₦80,000 to his solicitor. We don't see this transaction.</div>
+                <div class="ts">EXPECTED BY JUN 5 · you have 14 days from confirmation</div>
+              </div>
+            </div>
+            <div class="tl-step">
+              <div class="dot">4</div>
+              <div class="body">
+                <div class="t">Move in · keys exchanged · retainment released</div>
+                <div class="s">Confirm move-in from this page or the app. ₦35,000 is transferred to Adaeze, handover closes.</div>
+                <div class="ts">EXPECTED AUG 1 · or earlier if you agree with Adaeze</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right sidebar of dashboard -->
+        <div>
+          <!-- Money panel -->
+          <div class="panel" style="margin-bottom: 16px;">
+            <div class="panel-h">
+              <h3>The <em>money</em></h3>
+            </div>
+            <div class="money-row"><span>Retainment (held)</span><span class="amt">₦35,000</span></div>
+            <div class="money-row"><span>Handover fee (paid)</span><span class="amt">₦2,500</span></div>
+            <div class="money-row total"><span>You've paid so far</span><span class="amt">₦37,500</span></div>
+            <div style="border-top: 1px solid var(--line); margin-top: 20px; padding-top: 16px;">
+              <div style="font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">— Coming, paid to landlord directly</div>
+              <div class="money-row due"><span>Annual rent</span><span class="amt">₦4,500,000</span></div>
+              <div class="money-row due"><span>Service charge (1 yr)</span><span class="amt">₦240,000</span></div>
+              <div class="money-row due"><span>Legal &amp; agreement</span><span class="amt">₦80,000</span></div>
+              <div class="money-row total due"><span>Still to pay</span><span class="amt">₦4,820,000</span></div>
+            </div>
+          </div>
+
+          <!-- People panel -->
+          <div class="panel">
+            <div class="panel-h">
+              <h3>The <em>people</em></h3>
+            </div>
+            <div class="person-row">
+              <div class="ava">AO</div>
+              <div class="meta">
+                <div class="role">OUTGOING TENANT</div>
+                <div class="nm">Adaeze Okonkwo</div>
+              </div>
+              <a href="Handover Messages.html" class="btn btn-outline btn-sm"><i data-lucide="message-circle"></i></a>
+            </div>
+            <div class="person-row">
+              <div class="ava ink">OA</div>
+              <div class="meta">
+                <div class="role">LANDLORD</div>
+                <div class="nm">Mr. Olabode Adekunle</div>
+              </div>
+              <button class="btn btn-outline btn-sm"><i data-lucide="phone"></i></button>
+            </div>
+            <div class="person-row">
+              <div class="ava">MA</div>
+              <div class="meta">
+                <div class="role">GATEMAN</div>
+                <div class="nm">Musa Abdullahi</div>
+              </div>
+              <button class="btn btn-outline btn-sm"><i data-lucide="phone"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== Below: the "outgoing tenant" view (same dashboard, lower sections) ============== -->
+
+      <div style="margin: 40px 0 16px;">
+        <h2 class="h2" style="margin: 0 0 6px;">As the <em>outgoing tenant</em></h2>
+        <p class="muted" style="margin: 0; font-size: 14.5px;">You've also got a place you're handing over. Here's where it stands.</p>
+      </div>
+
+      <!-- My listing card -->
+      <div class="panel" style="padding: 0; overflow: hidden;">
+        <div class="mini-list-card" style="border: 0; margin: 0; padding: 22px;">
+          <div class="thumb" style="background: repeating-linear-gradient(135deg, #E8DDC6 0 14px, #DDD0B2 14px 28px); width: 110px; height: 110px;"></div>
+          <div class="body">
+            <div class="flex gap-2 mb-2">
+              <span class="badge badge-pending"><span class="pip"></span>3 interested</span>
+              <span class="badge badge-outline">Published 4 days ago</span>
+            </div>
+            <div class="nm" style="font-size: 17px; margin-bottom: 4px;">2-bed in Wuse 2, Abuja</div>
+            <div class="meta">
+              <i data-lucide="map-pin" style="width: 12px; height: 12px;"></i>
+              Wuse 2, Abuja · ₦3,200,000/yr · retainment ₦30,000
+            </div>
+            <div class="stats">
+              <div class="stat"><div class="v">168</div><div class="k">Views</div></div>
+              <div class="stat"><div class="v">24</div><div class="k">Saved</div></div>
+              <div class="stat"><div class="v brand">1</div><div class="k">Retained</div></div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn btn-primary btn-sm">View applicants</button>
+            <button class="btn btn-outline btn-sm"><i data-lucide="edit"></i> Edit listing</button>
+            <button class="btn btn-ghost btn-sm"><i data-lucide="eye"></i> View public</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interested applicants -->
+      <div class="panel" style="margin-top: 16px;">
+        <div class="panel-h">
+          <h3>Who wants <em>your place</em></h3>
+          <a href="#" class="link">See all 3</a>
+        </div>
+
+        <!-- Top candidate: paid retainment -->
+        <div style="background: var(--paper-2); border: 2px solid var(--brand); border-radius: var(--r-md); padding: 20px; margin-bottom: 12px; position: relative;">
+          <span style="position: absolute; top: -10px; right: 16px; background: var(--brand); color: white; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em;">RETAINMENT PAID</span>
+          <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px;">
+            <div class="ava" style="width: 48px; height: 48px; border-radius: 9999px; background: var(--ink); color: var(--sand); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 18px;">CN</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="font-size: 16px; font-weight: 600;">Chinedu Nwosu</div>
+                <i data-lucide="badge-check" style="width: 14px; height: 14px; color: var(--brand);"></i>
+              </div>
+              <div style="font-size: 13px; color: var(--ink-3); margin-top: 3px;">Mechanical engineer · 31 · Currently in Garki II</div>
+              <div style="font-family: var(--font-mono); font-size: 11.5px; color: var(--brand); margin-top: 6px;">PAID ₦32,500 · 6 HRS AGO · YOU HAVE 41H 22M TO CONFIRM</div>
+            </div>
+          </div>
+          <div style="background: var(--paper); padding: 14px 16px; border-radius: 10px; border: 1px dashed var(--line); font-family: var(--font-serif); font-size: 17px; line-height: 1.45; color: var(--ink); font-style: italic;">
+            "Married, no kids yet, both my wife and I work remotely. Adaeze, we love your kitchen photos. We can move in any time from July onwards."
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 16px;">
+            <button class="btn btn-primary"><i data-lucide="check"></i> Confirm Chinedu</button>
+            <button class="btn btn-outline"><i data-lucide="message-circle"></i> Chat first</button>
+            <button class="btn btn-ghost" style="color: var(--ink-3);">Decline &amp; refund</button>
+          </div>
+        </div>
+
+        <!-- Other applicants -->
+        <div class="person-row" style="padding: 16px 0; border-bottom: 1px solid var(--line);">
+          <div class="ava">FY</div>
+          <div class="meta">
+            <div class="nm">Funmi Yusuf</div>
+            <div class="role" style="text-transform: none; letter-spacing: 0; font-size: 12.5px; color: var(--ink-3); margin-top: 3px;">Architect · 34 · Sent a message about pet policy 1 day ago</div>
+          </div>
+          <span class="badge badge-outline">Inquired</span>
+          <button class="btn btn-outline btn-sm" style="margin-left: 8px;">Reply</button>
+        </div>
+        <div class="person-row" style="padding: 16px 0;">
+          <div class="ava">PA</div>
+          <div class="meta">
+            <div class="nm">Peace Abiola</div>
+            <div class="role" style="text-transform: none; letter-spacing: 0; font-size: 12.5px; color: var(--ink-3); margin-top: 3px;">Doctor · 29 · Wants a viewing Saturday 11am</div>
+          </div>
+          <span class="badge badge-outline">Viewing</span>
+          <button class="btn btn-outline btn-sm" style="margin-left: 8px;">Confirm</button>
+        </div>
+      </div>
+
+      <!-- Help row -->
+      <div class="help-strip">
+        <div class="ico"><i data-lucide="life-buoy"></i></div>
+        <div class="txt">
+          <b>Something off?</b> If the landlord refuses you or the place isn't as advertised, file a dispute within 72 hrs of move-in and we'll process a full refund.
+        </div>
+        <a href="#" class="btn btn-outline btn-sm">Open dispute</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

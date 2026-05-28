@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>List Your Apartment to Hand Over — No Agent Fees | Handover</title>
+<meta name="description" content="Moving out? List your apartment on Handover in 8 minutes. Find the next tenant yourself, collect a retainment fee, and pass on the keys — no agent involved." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://handoverapp.ng/post-listing" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://handoverapp.ng/post-listing" />
+<meta property="og:title" content="List Your Apartment to Hand Over — No Agent Fees | Handover" />
+<meta property="og:description" content="Moving out? List your apartment in 8 minutes. Find the next tenant yourself, collect a retainment fee, no agent involved." />
+<meta property="og:site_name" content="Handover" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="List Your Apartment to Hand Over | Handover" />
+<meta name="twitter:description" content="Moving out? List your apartment in 8 minutes and find the next tenant yourself. No agent fees." />
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  .post-shell {
+    display: grid;
+    grid-template-columns: 220px 1fr 320px;
+    gap: 48px;
+    padding: 40px 0 96px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) { .post-shell { grid-template-columns: 1fr 320px; } .step-nav { display: none; } }
+  @media (max-width: 820px) { .post-shell { grid-template-columns: 1fr; } .preview { display: none; } }
+
+  /* ---- Step nav ---- */
+  .step-nav {
+    position: sticky; top: 92px; align-self: start;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .step-nav .item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--r);
+    font-size: 13.5px;
+    color: var(--ink-3);
+    border: 1px solid transparent;
+  }
+  .step-nav .item .n {
+    width: 24px; height: 24px; border-radius: 9999px;
+    background: var(--paper-2); border: 1px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11.5px;
+    color: var(--ink-3);
+  }
+  .step-nav .item.is-done { color: var(--ink); }
+  .step-nav .item.is-done .n { background: var(--brand); color: white; border-color: var(--brand); }
+  .step-nav .item.is-now { background: var(--paper); border-color: var(--line); color: var(--ink); font-weight: 600; }
+  .step-nav .item.is-now .n { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* ---- Section card ---- */
+  .section-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .section-card .num {
+    font-family: var(--font-serif); font-size: 14px; color: var(--brand); font-style: italic;
+    margin-bottom: 6px; letter-spacing: 0.04em;
+  }
+  .section-card h2 {
+    font-family: var(--font-serif); font-size: 32px; line-height: 1.06; letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .section-card h2 em { font-style: italic; color: var(--brand); }
+  .section-card .sub { color: var(--ink-2); font-size: 15px; line-height: 1.55; margin: 0 0 24px; max-width: 540px; }
+
+  /* ---- Photo dropzones ---- */
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .photo-slot {
+    aspect-ratio: 1;
+    background: var(--paper-2);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--r);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    color: var(--ink-3); font-size: 11.5px;
+    cursor: pointer;
+    transition: border-color .15s ease, background-color .15s ease;
+    position: relative;
+    text-align: center;
+    padding: 8px;
+  }
+  .photo-slot:hover { border-color: var(--brand); background: var(--brand-tint); color: var(--brand-deep); }
+  .photo-slot.filled {
+    border: 1px solid var(--line);
+    border-style: solid;
+    background: var(--bg-2);
+    color: var(--ink);
+    padding: 0;
+    overflow: hidden;
+  }
+  .photo-slot.filled .photo { width: 100%; height: 100%; border-radius: 0; }
+  .photo-slot .star {
+    position: absolute; top: 6px; left: 6px;
+    background: var(--brand); color: white; font-size: 10px; padding: 2px 7px; border-radius: 9999px;
+    font-weight: 600; letter-spacing: 0.04em;
+  }
+  .photo-slot .rmv {
+    position: absolute; top: 6px; right: 6px; width: 22px; height: 22px;
+    background: hsl(40 50% 96% / 0.95); border: 1px solid var(--line);
+    border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center;
+    color: var(--ink-2);
+  }
+
+  /* ---- Toggle / amenity grid ---- */
+  .toggle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .toggle-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: var(--paper);
+    font-size: 13.5px; font-weight: 500;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .toggle-pill i { color: var(--ink-3); width: 16px; height: 16px; }
+  .toggle-pill.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .toggle-pill.is-on i { color: var(--bg); }
+
+  /* ---- Inline currency ---- */
+  .currency-input { position: relative; }
+  .currency-input::before {
+    content: "₦"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--ink-3); font-weight: 500; pointer-events: none;
+  }
+  .currency-input input { padding-left: 30px; font-variant-numeric: tabular-nums; }
+
+  /* ---- Retainment slider ---- */
+  .retainment-vis {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 24px;
+    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+  }
+  .retainment-vis .amt {
+    font-family: var(--font-serif); font-size: 48px; line-height: 1; color: var(--brand); letter-spacing: -0.022em;
+  }
+  .retainment-vis .pct { font-size: 12px; color: var(--ink-3); }
+  input[type="range"] {
+    -webkit-appearance: none; width: 100%; background: transparent;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px; background: var(--line-strong); border-radius: 9999px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 22px; height: 22px; border-radius: 9999px;
+    background: var(--brand); border: 3px solid white; box-shadow: var(--shadow-2);
+    margin-top: -9px;
+  }
+
+  /* ---- Preview pane ---- */
+  .preview {
+    position: sticky; top: 92px; align-self: start;
+  }
+  .preview .label-tag {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .preview .label-tag::before { content: ""; display: inline-block; width: 24px; height: 1px; background: var(--ink-3); }
+
+  /* ---- Manual fields list ---- */
+  .manual-row {
+    display: grid; grid-template-columns: 220px 1fr; gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .manual-row:last-child { border-bottom: 0; }
+  .manual-row .k { font-size: 13px; font-weight: 600; padding-top: 12px; }
+  .manual-row .k small { display: block; font-weight: 400; color: var(--ink-3); margin-top: 2px; }
+
+  /* ---- Footer cta bar ---- */
+  .cta-bar {
+    position: sticky; bottom: 0;
+    background: hsl(40 50% 96% / 0.92);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
+    padding: 16px 0;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Listings.html">Browse listings</a>
+      <a href="Handover Landing.html#how">How it works</a>
+      <a href="Handover Landing.html#trust">Safety</a>
+      <a href="Handover Landing.html#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <span style="font-size: 13px; color: var(--ink-3);">Saved as draft · just now</span>
+      <a href="Handover Dashboard.html" class="btn btn-outline btn-sm"><i data-lucide="save"></i> Save &amp; exit</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ INTRO ============ -->
+<section style="padding: 56px 0 16px;">
+  <div class="container">
+    <div class="eyebrow mb-4"><span class="rule"></span> List your apartment</div>
+    <h1 class="h1" style="max-width: 720px;">Hand it over <em>well.</em></h1>
+    <p class="lead mt-4" style="max-width: 620px;">
+      You're handing your home to a stranger and a few hundred thousand naira. Take the eight minutes. The next tenant is going to live there.
+    </p>
+  </div>
+</section>
+
+<!-- ============ FORM ============ -->
+<section>
+  <div class="container post-shell">
+
+    <!-- ===== STEP NAV ===== -->
+    <aside class="step-nav">
+      <div class="item is-done"><span class="n"><i data-lucide="check" style="width: 12px; height: 12px;"></i></span>Eligibility check</div>
+      <div class="item is-done"><span class="n"><i data-lucide="check" style="width: 12px; height: 12px;"></i></span>The basics</div>
+      <div class="item is-now"><span class="n">3</span>Photos &amp; description</div>
+      <div class="item"><span class="n">4</span>Rent &amp; retainment</div>
+      <div class="item"><span class="n">5</span>House details</div>
+      <div class="item"><span class="n">6</span>Move-out date</div>
+      <div class="item"><span class="n">7</span>Verification</div>
+      <div class="item"><span class="n">8</span>Review &amp; publish</div>
+    </aside>
+
+    <!-- ===== FORM BODY ===== -->
+    <div>
+
+      <!-- ===== 1. Basics ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 01</div>
+        <h2>The <em>basics</em></h2>
+        <p class="sub">Just enough so people can find it in search. You can add detail later.</p>
+
+        <div class="field">
+          <label class="label">Listing title <span class="opt">— write it like a real person, not an agent</span></label>
+          <input class="input" value="3-bedroom flat in a quiet close, fully serviced" />
+          <div class="hint">Good: <em>"Mini-flat with generator and good water pressure"</em>. Avoid all-caps and "Affordable Luxury".</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="label">City</label>
+            <select class="select"><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Ibadan</option></select>
+          </div>
+          <div class="field">
+            <label class="label">Neighbourhood</label>
+            <input class="input" value="Lekki Phase 1" />
+          </div>
+        </div>
+
+        <div class="field-row-3">
+          <div class="field">
+            <label class="label">Property type</label>
+            <select class="select"><option>Self-contained</option><option>Mini-flat / 1-bed</option><option>2-bedroom flat</option><option selected>3-bedroom flat</option><option>Duplex / Terrace</option></select>
+          </div>
+          <div class="field">
+            <label class="label">Bedrooms</label>
+            <input class="input" value="3" />
+          </div>
+          <div class="field">
+            <label class="label">Bathrooms</label>
+            <input class="input" value="3" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Street / Estate name <span class="opt">— shown only after retainment is paid</span></label>
+          <input class="input" value="Beachland Estate, Off Admiralty Way" />
+          <div class="hint">Until then, browsers only see the neighbourhood and a rough map circle.</div>
+        </div>
+      </div>
+
+      <!-- ===== 2. Photos ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 02</div>
+        <h2>Photos that <em>don't lie</em></h2>
+        <p class="sub">Take them today, with the lights on. Wide shots are better than close-ups. Add at least 6 — places with 10+ photos get 4× more retainments paid.</p>
+
+        <div class="photo-grid">
+          <div class="photo-slot filled">
+            <span class="star">COVER</span>
+            <button class="rmv"><i data-lucide="x" style="width: 12px; height: 12px;"></i></button>
+            <div class="photo warm"><span class="photo-label" style="margin: 6px;">Living room</span></div>
+          </div>
+          <div class="photo-slot filled">
+            <button class="rmv"><i data-lucide="x" style="width: 12px; height: 12px;"></i></button>
+            <div class="photo"><span class="photo-label" style="margin: 6px;">Kitchen</span></div>
+          </div>
+          <div class="photo-slot filled">
+            <button class="rmv"><i data-lucide="x" style="width: 12px; height: 12px;"></i></button>
+            <div class="photo dim"><span class="photo-label" style="margin: 6px;">Master</span></div>
+          </div>
+          <div class="photo-slot filled">
+            <button class="rmv"><i data-lucide="x" style="width: 12px; height: 12px;"></i></button>
+            <div class="photo warm"><span class="photo-label" style="margin: 6px;">Compound</span></div>
+          </div>
+          <div class="photo-slot filled">
+            <button class="rmv"><i data-lucide="x" style="width: 12px; height: 12px;"></i></button>
+            <div class="photo"><span class="photo-label" style="margin: 6px;">Bath</span></div>
+          </div>
+          <div class="photo-slot">
+            <i data-lucide="image-plus" style="width: 22px; height: 22px;"></i>
+            <span>Add photo</span>
+          </div>
+          <div class="photo-slot">
+            <i data-lucide="image-plus" style="width: 22px; height: 22px;"></i>
+            <span>Add photo</span>
+          </div>
+          <div class="photo-slot">
+            <i data-lucide="image-plus" style="width: 22px; height: 22px;"></i>
+            <span>Add photo</span>
+          </div>
+        </div>
+
+        <div style="background: var(--brand-tint); border: 1px solid #E5BFA8; border-radius: var(--r); padding: 14px 16px; margin-top: 16px; font-size: 13px; color: var(--brand-deep); display: flex; gap: 10px; align-items: flex-start;">
+          <i data-lucide="lightbulb" style="width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;"></i>
+          <div>Drag photos to reorder. The first one becomes your cover. Tip — pick the one that shows natural light.</div>
+        </div>
+
+        <div class="field mt-6">
+          <label class="label">Description <span class="opt">— honest, specific, no marketing fluff</span></label>
+          <textarea class="textarea" rows="6">Third-floor flat in a small block of 6, on a closed street with a security gate and 24-hour security. The living room opens to a south-facing balcony — the only direction in Beachland that doesn't get the harmattan dust head-on. Kitchen has been recently re-tiled and has new granite countertops.
+
+Two of the three bedrooms have en-suite bathrooms. The third bedroom is currently set up as a home office. There is a small BQ with separate entrance.</textarea>
+          <div class="hint">432 / 1200 characters. <strong>Tell them what you wish you'd known before moving in.</strong></div>
+        </div>
+
+        <div class="field">
+          <label class="label">Why are you handing it over? <span class="opt">— this builds trust, keep it short</span></label>
+          <textarea class="textarea" rows="3">Relocating with my husband to Manchester for his postdoc. The place has been very good to us — I'd love to leave it to someone who'll actually use the kitchen properly.</textarea>
+        </div>
+      </div>
+
+      <!-- ===== 3. Rent & Retainment ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 03</div>
+        <h2>Rent &amp; <em>retainment</em></h2>
+        <p class="sub">The retainment is what new tenants pay to lock interest in your place. Set it fairly — small enough they'll pay, large enough to filter the time-wasters.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="label">Current annual rent</label>
+            <div class="currency-input"><input class="input" value="4,500,000" /></div>
+            <div class="hint">What you're paying your landlord now.</div>
+          </div>
+          <div class="field">
+            <label class="label">Service charge <span class="opt">— per year, if separate</span></label>
+            <div class="currency-input"><input class="input" value="240,000" /></div>
+            <div class="hint">Estate fees, security, waste, gen diesel.</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Set your retainment</label>
+          <div class="retainment-vis">
+            <div>
+              <div class="amt amount">₦35,000</div>
+              <div class="pct">≈ 0.78% of annual rent · in the typical range</div>
+              <input type="range" min="10000" max="120000" value="35000" step="1000" style="margin-top: 14px; max-width: 360px;" />
+              <div style="display: flex; justify-content: space-between; max-width: 360px; font-size: 11px; color: var(--ink-3); font-family: var(--font-mono); margin-top: 4px;">
+                <span>₦10k</span><span>₦60k</span><span>₦120k</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; min-width: 160px;">
+              <div style="font-size: 12px; color: var(--ink-3);">For a ₦4.5M flat,<br>others charge:</div>
+              <div style="font-size: 14px;"><b>Low</b> · ₦22,500</div>
+              <div style="font-size: 14px;"><b>Typical</b> · ₦35,000</div>
+              <div style="font-size: 14px;"><b>High</b> · ₦67,500</div>
+            </div>
+          </div>
+          <div class="hint">Retainment is held by Handover until the new tenant moves in. Then it's released to you in full. Handover charges them a separate ₦2,500 platform fee — you keep 100% of the retainment.</div>
+        </div>
+      </div>
+
+      <!-- ===== 4. House details ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 04</div>
+        <h2>What's <em>in the place</em></h2>
+        <p class="sub">Pick everything that applies. The more you tick, the higher you'll rank for filtered searches.</p>
+
+        <div class="label mb-2">Utilities &amp; power</div>
+        <div class="toggle-grid mb-6">
+          <button class="toggle-pill is-on"><i data-lucide="zap"></i>Estate generator (24/7)</button>
+          <button class="toggle-pill is-on"><i data-lucide="battery-charging"></i>Inverter (stays)</button>
+          <button class="toggle-pill"><i data-lucide="fuel"></i>Personal generator</button>
+          <button class="toggle-pill is-on"><i data-lucide="droplet"></i>Borehole / treated water</button>
+          <button class="toggle-pill is-on"><i data-lucide="gauge"></i>Prepaid meter</button>
+          <button class="toggle-pill"><i data-lucide="flame"></i>Gas cooker connected</button>
+        </div>
+
+        <div class="label mb-2">Comfort &amp; finish</div>
+        <div class="toggle-grid mb-6">
+          <button class="toggle-pill is-on"><i data-lucide="thermometer-snowflake"></i>ACs in bedrooms</button>
+          <button class="toggle-pill is-on"><i data-lucide="warehouse"></i>Built-in wardrobes</button>
+          <button class="toggle-pill"><i data-lucide="sofa"></i>Furnished</button>
+          <button class="toggle-pill is-on"><i data-lucide="utensils"></i>Fitted kitchen</button>
+          <button class="toggle-pill"><i data-lucide="bath"></i>Bath tub</button>
+          <button class="toggle-pill is-on"><i data-lucide="sun"></i>Balcony</button>
+        </div>
+
+        <div class="label mb-2">Building &amp; estate</div>
+        <div class="toggle-grid mb-6">
+          <button class="toggle-pill is-on"><i data-lucide="shield"></i>24-hr security</button>
+          <button class="toggle-pill is-on"><i data-lucide="car"></i>Dedicated parking</button>
+          <button class="toggle-pill is-on"><i data-lucide="door-open"></i>BQ</button>
+          <button class="toggle-pill"><i data-lucide="dumbbell"></i>Gym</button>
+          <button class="toggle-pill"><i data-lucide="waves"></i>Swimming pool</button>
+          <button class="toggle-pill"><i data-lucide="elevator"></i>Lift</button>
+        </div>
+
+        <div class="field">
+          <label class="label">What stays when you leave? <span class="opt">— optional, can be added later</span></label>
+          <textarea class="textarea" rows="4">Samsung double-door fridge, microwave + air fryer, 3kVA inverter with 2 batteries, all 3 split-unit ACs, living room curtains and customised light fittings.</textarea>
+        </div>
+      </div>
+
+      <!-- ===== 5. Move-out / availability ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 05</div>
+        <h2>When are you <em>leaving?</em></h2>
+        <p class="sub">The new tenant's move-in is usually the day after yours, or up to two weeks later if you need handover overlap.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="label">My last day in the flat</label>
+            <input class="input" type="date" value="2026-07-31" />
+          </div>
+          <div class="field">
+            <label class="label">New tenant can move in</label>
+            <input class="input" type="date" value="2026-08-01" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">How flexible is your date?</label>
+          <div class="toggle-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <button class="toggle-pill"><i data-lucide="lock"></i>Fixed — can't move it</button>
+            <button class="toggle-pill is-on"><i data-lucide="move-horizontal"></i>± 2 weeks</button>
+            <button class="toggle-pill"><i data-lucide="calendar"></i>± 1 month</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Viewing windows <span class="opt">— when interested people can come see</span></label>
+          <div class="grid grid-2">
+            <div class="card" style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 14px;"><b>Saturdays</b><br><span class="muted" style="font-size: 12.5px;">10am – 1pm</span></span>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="pen"></i></button>
+            </div>
+            <div class="card" style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 14px;"><b>Weekdays</b><br><span class="muted" style="font-size: 12.5px;">After 6pm by appointment</span></span>
+              <button class="btn btn-ghost btn-sm"><i data-lucide="pen"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 6. House manual ===== -->
+      <div class="section-card">
+        <div class="num">— STEP 06</div>
+        <h2>The <em>house manual</em></h2>
+        <p class="sub">This stays private. New tenant only sees it after they've paid retainment and you've accepted. It's the difference between Handover and any other listing site.</p>
+
+        <div class="manual-row">
+          <div class="k">Landlord's name<small>Will be shared after handover</small></div>
+          <input class="input" value="Mr. Olabode Adekunle" />
+        </div>
+        <div class="manual-row">
+          <div class="k">Landlord's WhatsApp / phone<small>Shared after handover</small></div>
+          <input class="input" value="+234 803 411 8829" />
+        </div>
+        <div class="manual-row">
+          <div class="k">Landlord's email<small>Optional</small></div>
+          <input class="input" value="bodeadekunle@gmail.com" />
+        </div>
+        <div class="manual-row">
+          <div class="k">EKEDC / NEPA meter number</div>
+          <input class="input" value="04-31-7762-4451" />
+        </div>
+        <div class="manual-row">
+          <div class="k">Average monthly electricity</div>
+          <div class="currency-input"><input class="input" value="21,000" /></div>
+        </div>
+        <div class="manual-row">
+          <div class="k">Gateman / security contact</div>
+          <input class="input" value="Musa — +234 813 552 0019" />
+        </div>
+        <div class="manual-row">
+          <div class="k">Trusted plumber / electrician<small>Optional</small></div>
+          <input class="input" value="Engr. Sunday — plumbing — +234 802 110 5547" />
+        </div>
+        <div class="manual-row">
+          <div class="k">Quirks &amp; fixes<small>The things that take a new tenant 3 months to figure out on their own</small></div>
+          <textarea class="textarea" rows="4">The hot water tap in the master bath needs a firm twist — it sticks otherwise. Generator switch is in the kitchen drawer, not the panel.
+
+Estate Wi-Fi password is on a sticker behind the gateman's hut.</textarea>
+        </div>
+      </div>
+
+      <!-- ===== 7. Verification ===== -->
+      <div class="section-card" style="background: var(--paper-2);">
+        <div class="num">— STEP 07</div>
+        <h2>Quick <em>verification</em></h2>
+        <p class="sub">Before we publish, we need to confirm you actually live there. This is what makes new tenants trust Handover with their money.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+            <div class="flex items-center gap-4">
+              <div style="width: 44px; height: 44px; background: var(--brand-soft); color: var(--brand-deep); border-radius: var(--r); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="id-card"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 15px;">NIN or BVN</div>
+                <div style="font-size: 13px; color: var(--ink-3); margin-top: 2px;">We match your name to your ID. Number is never shown publicly.</div>
+              </div>
+            </div>
+            <span class="badge badge-brand"><i data-lucide="badge-check"></i> Done</span>
+          </div>
+
+          <div class="card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+            <div class="flex items-center gap-4">
+              <div style="width: 44px; height: 44px; background: var(--brand-soft); color: var(--brand-deep); border-radius: var(--r); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 15px;">Recent utility bill or rent receipt</div>
+                <div style="font-size: 13px; color: var(--ink-3); margin-top: 2px;">Anything that shows your name + the address. EKEDC, LAWMA, or your last rent receipt.</div>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm"><i data-lucide="upload"></i> Upload</button>
+          </div>
+
+          <div class="card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+            <div class="flex items-center gap-4">
+              <div style="width: 44px; height: 44px; background: var(--brand-soft); color: var(--brand-deep); border-radius: var(--r); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="phone"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 15px;">Phone number</div>
+                <div style="font-size: 13px; color: var(--ink-3); margin-top: 2px;">We send the OTP. Shown to interested tenants only after retainment.</div>
+              </div>
+            </div>
+            <span class="badge badge-brand"><i data-lucide="badge-check"></i> Done</span>
+          </div>
+
+          <div class="card" style="padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+            <div class="flex items-center gap-4">
+              <div style="width: 44px; height: 44px; background: var(--brand-soft); color: var(--brand-deep); border-radius: var(--r); display: inline-flex; align-items: center; justify-content: center;">
+                <i data-lucide="banknote"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 15px;">Bank account for payout</div>
+                <div style="font-size: 13px; color: var(--ink-3); margin-top: 2px;">Where we send the retainment after handover. Must match the name on your NIN.</div>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm"><i data-lucide="link"></i> Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CTA bar ===== -->
+      <div class="cta-bar">
+        <div class="flex justify-between items-center" style="flex-wrap: wrap; gap: 12px;">
+          <div class="flex items-center gap-4">
+            <button class="btn btn-outline"><i data-lucide="arrow-left"></i> Back</button>
+            <div style="font-size: 13px; color: var(--ink-3);">Step 3 of 8 · auto-saving as you go</div>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn btn-ghost"><i data-lucide="eye"></i> Preview public listing</button>
+            <button class="btn btn-primary">Continue to verification <i data-lucide="arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LIVE PREVIEW ===== -->
+    <aside class="preview">
+      <div class="label-tag">Live preview · how it'll look</div>
+
+      <div class="listing-card" style="margin-bottom: 24px;">
+        <div class="listing-photo-wrap">
+          <div class="photo warm" style="aspect-ratio: 4/3;"><span class="photo-label">3-bed · Lekki Phase 1</span></div>
+          <span class="badge badge-available"><span class="pip"></span>Available Aug 1</span>
+        </div>
+        <div class="listing-body">
+          <span class="listing-loc"><i data-lucide="map-pin" style="width: 14px; height: 14px;"></i>Lekki Phase 1, Lagos</span>
+          <h4 class="listing-title">3-bedroom flat in a quiet close, fully serviced</h4>
+          <div class="listing-meta">
+            <span>3 beds</span><span class="dot"></span><span>3 baths</span><span class="dot"></span><span>BQ</span>
+          </div>
+          <div class="listing-foot">
+            <div>
+              <div class="listing-price">₦4,500,000<span class="per">/yr</span></div>
+              <div style="font-size: 11px; color: var(--ink-3); margin-top: 4px;">Posted by Adaeze O.</div>
+            </div>
+            <div class="listing-retain">Retainment<b>₦35,000</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding: 18px; background: var(--paper-2);">
+        <div style="font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">If you publish today</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+          <div class="flex justify-between"><span style="color: var(--ink-2);">Estimated views in 7 days</span><b>~ 320</b></div>
+          <div class="flex justify-between"><span style="color: var(--ink-2);">Average time to handover</span><b>11 days</b></div>
+          <div class="flex justify-between"><span style="color: var(--ink-2);">Similar places in Lekki</span><b>14 active</b></div>
+        </div>
+      </div>
+
+      <div style="font-size: 12.5px; color: var(--ink-3); line-height: 1.55; margin-top: 18px;">
+        <i data-lucide="lock" style="width: 14px; height: 14px; display: inline-block; vertical-align: -2px; color: var(--brand);"></i>
+        Your full address, the house manual, and your phone number stay hidden until someone pays retainment <em>and</em> you confirm them.
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span class="brand-name" style="color: white;">Handover</span>
+        </div>
+        <p style="margin-top: 16px; font-size: 14px; line-height: 1.6; color: #C9BDAC; max-width: 320px;">
+          The peer-to-peer way to pass on a Nigerian apartment. No agents, no inflated fees.
+        </p>
+      </div>
+      <div>
+        <h5>For tenants</h5>
+        <ul>
+          <li><a href="Handover Listings.html">Browse listings</a></li>
+          <li><a href="Handover Post Listing.html">List your apartment</a></li>
+          <li><a href="#">How retainment works</a></li>
+          <li><a href="#">Verification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Cities</h5>
+        <ul>
+          <li><a href="#">Lagos</a></li>
+          <li><a href="#">Abuja</a></li>
+          <li><a href="#">Port Harcourt</a></li>
+          <li><a href="#">Ibadan</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Handover</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Trust &amp; safety</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Help center</a></li>
+          <li><a href="Handover Terms.html">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Handover Technologies Nigeria Ltd.</span>
+      <span>Lagos · Abuja · Port Harcourt</span>
+    </div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

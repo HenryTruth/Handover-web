@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terms and Conditions — Handover</title>
+<meta name="description" content="Handover's Terms and Conditions — the rules that govern using our peer-to-peer apartment handover platform in Nigeria." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://handoverapp.ng/terms" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://handoverapp.ng/terms" />
+<meta property="og:title" content="Terms and Conditions — Handover" />
+<meta property="og:description" content="The rules governing use of the Handover peer-to-peer apartment platform in Nigeria." />
+<meta property="og:site_name" content="Handover" />
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  .terms-shell {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 64px;
+    padding: 56px 0 120px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .terms-shell { grid-template-columns: 1fr; gap: 32px; }
+    .terms-toc { display: none; }
+  }
+
+  /* Sticky table of contents */
+  .terms-toc {
+    position: sticky;
+    top: 96px;
+  }
+  .terms-toc-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .terms-toc a {
+    display: block;
+    font-size: 13px;
+    color: var(--ink-3);
+    padding: 6px 0 6px 12px;
+    border-left: 2px solid var(--line);
+    line-height: 1.4;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .terms-toc a:hover,
+  .terms-toc a.active {
+    color: var(--brand);
+    border-left-color: var(--brand);
+  }
+
+  /* Body copy */
+  .terms-body h2 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 56px 0 16px;
+    padding-top: 56px;
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    scroll-margin-top: 100px;
+  }
+  .terms-body h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .terms-body h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 28px 0 8px;
+    color: var(--ink);
+  }
+  .terms-body p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin: 0 0 14px;
+  }
+  .terms-body ul, .terms-body ol {
+    margin: 8px 0 16px;
+    padding-left: 22px;
+  }
+  .terms-body li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .terms-body strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .terms-body a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Callout box */
+  .callout {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brand);
+    border-radius: var(--r);
+    padding: 18px 20px;
+    margin: 20px 0;
+  }
+  .callout p { margin: 0; font-size: 14px; color: var(--ink-2); }
+  .callout strong { color: var(--ink); }
+
+  .callout-warning {
+    background: #FFF7EF;
+    border-left-color: var(--sand);
+  }
+
+  /* Effective date badge */
+  .effective-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--brand-tint);
+    border: 1px solid var(--brand-soft);
+    border-radius: var(--r-full);
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--brand-deep);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  /* Definition table */
+  .def-table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+  .def-table td {
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .def-table td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    width: 160px;
+  }
+  .def-table td:last-child { color: var(--ink-2); }
+  .def-table tr:last-child td { border-bottom: none; }
+  .def-table tr:nth-child(even) td { background: var(--paper-2); }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Listings.html">Browse listings</a>
+      <a href="Handover Landing.html#how">How it works</a>
+      <a href="Handover Landing.html#trust">Safety</a>
+      <a href="Handover Landing.html#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <!-- <a href="Handover Sign In.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="Handover Sign In.html" class="btn btn-primary btn-sm">Create account</a> -->
+    </div>
+  </div>
+</header>
+
+<!-- ============ PAGE HEADER ============ -->
+<section style="padding: 56px 0 0; border-bottom: 1px solid var(--line); background: var(--bg-2);">
+  <div class="container">
+    <div class="flex items-center gap-2" style="font-size: 13px; color: var(--ink-3); margin-bottom: 20px;">
+      <a href="Handover Landing.html">Handover</a>
+      <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+      <span style="color: var(--ink);">Terms and Conditions</span>
+    </div>
+    <div class="effective-badge">
+      <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+      Effective 1 June 2026
+    </div>
+    <h1 class="h-display" style="max-width: 700px; margin-bottom: 16px;">
+      Terms and <em>Conditions</em>
+    </h1>
+    <p class="lead" style="max-width: 640px; padding-bottom: 48px;">
+      These terms govern how Handover works and what both parties — outgoing tenants and incoming tenants — agree to when they use the platform. Please read them carefully before creating a listing or paying a retainment.
+    </p>
+  </div>
+</section>
+
+<!-- ============ MAIN ============ -->
+<div class="container">
+  <div class="terms-shell">
+
+    <!-- TABLE OF CONTENTS -->
+    <aside class="terms-toc">
+      <div class="terms-toc-label">On this page</div>
+      <a href="#definitions">1. Definitions</a>
+      <a href="#platform">2. The Platform</a>
+      <a href="#eligibility">3. Eligibility</a>
+      <a href="#accounts">4. Accounts &amp; Verification</a>
+      <a href="#listings">5. Listings</a>
+      <a href="#retainment">6. Retainment</a>
+      <a href="#handover-process">7. The Handover Process</a>
+      <a href="#manual">8. The Handover Manual</a>
+      <a href="#escrow">9. Escrow &amp; Payments</a>
+      <a href="#refunds">10. Refunds</a>
+      <a href="#disputes">11. Disputes</a>
+      <a href="#fees">12. Handover's Fees</a>
+      <a href="#conduct">13. Prohibited Conduct</a>
+      <a href="#landlord">14. Landlord &amp; Lease Responsibility</a>
+      <a href="#liability">15. Limitation of Liability</a>
+      <a href="#privacy">16. Privacy</a>
+      <a href="#termination">17. Termination</a>
+      <a href="#changes">18. Changes to These Terms</a>
+      <a href="#governing-law">19. Governing Law</a>
+      <a href="#contact">20. Contact</a>
+    </aside>
+
+    <!-- BODY -->
+    <article class="terms-body">
+
+      <h2 id="definitions">1. Definitions</h2>
+      <p>The following terms have specific meanings throughout this document:</p>
+      <table class="def-table">
+        <tr><td>Handover</td><td>Handover Technologies Nigeria Ltd., the company operating this platform and mobile application.</td></tr>
+        <tr><td>Platform</td><td>The Handover website, mobile application, and all associated services.</td></tr>
+        <tr><td>User</td><td>Any person who creates an account and uses the Platform.</td></tr>
+        <tr><td>Outgoing Tenant</td><td>A User who creates a listing for a flat they are vacating. Their role is specific to a single listing — the same person can be an Outgoing Tenant on one handover and an Incoming Tenant on another, at the same time.</td></tr>
+        <tr><td>Incoming Tenant</td><td>A User who pays a Retainment to secure interest in a listed flat.</td></tr>
+        <tr><td>Listing</td><td>A property post created by an Outgoing Tenant, describing a flat available for handover.</td></tr>
+        <tr><td>Retainment</td><td>The holding fee paid by the Incoming Tenant to reserve a listing. This is not an agency fee. It is held in escrow and paid to the Outgoing Tenant upon confirmed key handover.</td></tr>
+        <tr><td>Escrow</td><td>The secure holding of the Retainment by Handover until the conditions for release are met.</td></tr>
+        <tr><td>Handover Manual</td><td>A written document created by the Outgoing Tenant describing the flat, its quirks, utilities, building, and neighbourhood for the benefit of the Incoming Tenant.</td></tr>
+        <tr><td>Key Confirmation</td><td>The in-app action by which the Incoming Tenant confirms they have physically received the keys and taken possession of the flat.</td></tr>
+        <tr><td>Dispute</td><td>A formal claim raised by either party when the handover does not proceed as expected.</td></tr>
+      </table>
+
+      <h2 id="platform">2. The Platform</h2>
+      <p>Handover is a peer-to-peer marketplace that connects outgoing tenants with incoming tenants for apartment transitions across Nigeria. Handover is <strong>not an estate agent, a property manager, a landlord, or a party to any tenancy agreement.</strong></p>
+      <p>Handover provides the technology, the payment infrastructure, the escrow service, and the dispute resolution process. Handover does not own, manage, or inspect any property listed on the Platform. All listings are created by individual users who are themselves tenants.</p>
+      <p>By using the Platform, you acknowledge that any tenancy agreement you enter into is directly between you and the landlord — not between you and Handover.</p>
+
+      <h2 id="eligibility">3. Eligibility</h2>
+      <p>To use Handover you must:</p>
+      <ul>
+        <li>Be at least 18 years of age.</li>
+        <li>Be a resident of Nigeria or have a verifiable address in Nigeria.</li>
+        <li>Have a valid Nigerian phone number capable of receiving SMS.</li>
+        <li>Complete identity verification as required by the Platform (see Section 4).</li>
+        <li>Not have been previously suspended or banned from the Platform.</li>
+      </ul>
+      <p>By creating an account, you confirm that you meet all of the above conditions.</p>
+
+      <h2 id="accounts">4. Accounts &amp; Verification</h2>
+      <h3>Creating an account</h3>
+      <p>You must provide accurate and complete information when registering. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account.</p>
+
+      <h3>Identity verification</h3>
+      <p>Handover requires all users to verify their identity before participating in a handover transaction. Verification includes:</p>
+      <ul>
+        <li><strong>NIN (National Identification Number)</strong> — mandatory for all users.</li>
+        <li><strong>Selfie check</strong> — a live photo matched against your NIN record.</li>
+        <li><strong>Phone number confirmation</strong> — via SMS one-time code.</li>
+      </ul>
+      <p>Outgoing Tenants must additionally provide proof of occupancy (e.g. a utility bill or tenancy agreement in their name) to publish a listing.</p>
+      <p>Verified profiles display a badge visible to other users on listings and in chat. You must not attempt to verify using another person's identity. Doing so will result in immediate and permanent account termination and may be referred to law enforcement.</p>
+
+      <h3>One account per person</h3>
+      <p>Each person may hold only one Handover account. Creating multiple accounts to circumvent bans, disputes, or verification requirements is prohibited.</p>
+
+      <h2 id="listings">5. Listings</h2>
+      <h3>Who can list</h3>
+      <p>Any verified user who is currently a tenant in a residential property in Nigeria may create a listing for that property. You may only list a flat in which you genuinely reside or for which you hold a valid tenancy agreement.</p>
+
+      <h3>What listings must include</h3>
+      <p>A listing must accurately represent the property. It must include:</p>
+      <ul>
+        <li>Honest photos of every room and the exterior.</li>
+        <li>The property type, number of bedrooms and bathrooms, and key amenities.</li>
+        <li>The current annual rent charged by the landlord.</li>
+        <li>The retainment amount set by the Outgoing Tenant.</li>
+        <li>The anticipated available-from date.</li>
+        <li>A personal write-up about the flat written in the Outgoing Tenant's own words.</li>
+      </ul>
+
+      <h3>Accuracy</h3>
+      <p>You must not misrepresent the condition, size, amenities, location, or price of a listed property. Listings must not contain fabricated photos, stock imagery, or images of a different property. Misrepresentation is a ground for dispute, account suspension, and forfeiture of the retainment.</p>
+
+      <h3>One retainment slot per listing</h3>
+      <p>Only one Incoming Tenant may hold the retainment slot on a listing at any time. Once a retainment is paid, the listing is marked as reserved. If the Outgoing Tenant does not confirm the Incoming Tenant within 48 hours, the retainment is refunded and the slot reopens automatically.</p>
+
+      <h3>Removing a listing</h3>
+      <p>You may remove an active listing at any time before a retainment is paid. Once a retainment is paid, a listing cannot be deleted without going through the dispute or refund process.</p>
+
+      <h2 id="retainment">6. Retainment</h2>
+      <h3>What retainment is</h3>
+      <p>Retainment is a holding fee paid by the Incoming Tenant to signal serious intent and secure the listing. It is <strong>not</strong> an agency fee, a finder's fee, a security deposit, or rent. It is a structured trust signal — small enough to be reasonable, large enough to be real.</p>
+
+      <h3>Who sets it</h3>
+      <p>The Outgoing Tenant sets the retainment amount when creating a listing. Typical retainments range from 0.5% to 1.5% of annual rent. Handover does not set or regulate the retainment amount, but reserves the right to flag or remove listings with amounts that are disproportionate.</p>
+
+      <h3>What happens to it</h3>
+      <p>The retainment is held in escrow by Handover from the moment of payment. It is not accessible to the Outgoing Tenant during this period. The retainment is released to the Outgoing Tenant only after the Incoming Tenant confirms Key Receipt in the app. If the handover does not proceed, the retainment is either refunded to the Incoming Tenant or remains locked pending a dispute outcome.</p>
+
+      <div class="callout">
+        <p><strong>Important:</strong> Retainment payments made outside the Handover Platform — via WhatsApp, direct bank transfer, or any other channel — are not protected by our escrow. Handover takes no responsibility for off-platform payments and cannot facilitate disputes or refunds for them.</p>
+      </div>
+
+      <h2 id="handover-process">7. The Handover Process</h2>
+      <p>Once a Retainment is paid, both parties are guided through a structured five-step process inside the app:</p>
+      <ol>
+        <li><strong>Retainment held</strong> — Confirmed and secured in escrow.</li>
+        <li><strong>Landlord confirmation</strong> — The Outgoing Tenant (or landlord) formally accepts the Incoming Tenant within an agreed window. Acceptance is the landlord's decision alone.</li>
+        <li><strong>Inspection and agreement</strong> — Both parties arrange a walkthrough of the property.</li>
+        <li><strong>Tenancy agreement signed</strong> — A new tenancy agreement is signed directly between the Incoming Tenant and the landlord. Handover may provide template documentation but is not a party to this agreement.</li>
+        <li><strong>Move-in and Key Confirmation</strong> — The Incoming Tenant takes possession and confirms key receipt in the app. This confirmation triggers the release of the escrow to the Outgoing Tenant.</li>
+      </ol>
+      <p>Both parties communicate exclusively through the in-app messaging system until both sides are comfortable sharing personal contact details. Handover retains records of all in-app communication for the purposes of dispute resolution.</p>
+
+      <h2 id="manual">8. The Handover Manual</h2>
+      <p>The Outgoing Tenant may write a Handover Manual for their listing at any time after creating it. The manual is a personal document covering appliances, utilities, building access, neighbourhood notes, and anything else a new tenant should know about the flat.</p>
+      <p>The manual belongs to a single listing. It is never reused across multiple handovers. Once the handover is complete, the manual is shared with the confirmed Incoming Tenant and remains accessible to them.</p>
+      <p>The Outgoing Tenant is responsible for the accuracy of the manual. Handover does not verify the contents. Deliberate misinformation in the manual is grounds for a dispute.</p>
+
+      <h2 id="escrow">9. Escrow &amp; Payments</h2>
+      <p>Handover holds the retainment in escrow using licensed payment infrastructure operating under applicable Nigerian financial regulations.</p>
+      <p>The escrow is released to the Outgoing Tenant <strong>only</strong> when the Incoming Tenant confirms Key Receipt in the app. This is the sole trigger for release under normal circumstances.</p>
+      <p>Escrow funds are not interest-bearing. Handover does not benefit financially from holding the escrow beyond the processing fees disclosed at the time of payment.</p>
+      <p>By paying a retainment, the Incoming Tenant authorises Handover to hold the funds under the escrow conditions described here.</p>
+
+      <h2 id="refunds">10. Refunds</h2>
+      <h3>When a refund is available</h3>
+      <p>Refunds are available to the Incoming Tenant at any time <strong>before</strong> Key Confirmation. Once the Incoming Tenant confirms they have received the keys, the escrow is released and the transaction is complete. A refund cannot be requested after Key Confirmation — there are no escrow funds remaining to return.</p>
+
+      <h3>How refunds work</h3>
+      <p>The Incoming Tenant requests a refund through the app. No approval from the Outgoing Tenant is required. The refund is processed to the original payment method within <strong>24 hours</strong>.</p>
+
+      <h3>Outgoing Tenant's protection</h3>
+      <p>The Outgoing Tenant cannot block a refund. Their only protection is to <strong>raise a dispute before the refund is processed.</strong> A dispute immediately locks the escrow and pauses any pending refund. A Handover mediator is then assigned to resolve the situation. If the Outgoing Tenant does not raise a dispute in time, the refund proceeds automatically.</p>
+
+      <h3>Refunds and active disputes</h3>
+      <p>Refund requests interact with disputes in three scenarios:</p>
+      <ul>
+        <li><strong>No active dispute:</strong> The refund is processed automatically within 24 hours.</li>
+        <li><strong>Active dispute raised by the Outgoing Tenant:</strong> The mediator holds both the dispute and the refund request and determines the outcome. The Incoming Tenant is not penalised for a dispute they did not initiate.</li>
+        <li><strong>Active dispute raised by the Incoming Tenant:</strong> The Incoming Tenant cannot run a dispute and a refund request simultaneously. The app will require them to choose — withdraw the dispute and proceed with the refund, or keep the dispute open. Only one claim may be active at a time.</li>
+      </ul>
+
+      <h2 id="disputes">11. Disputes</h2>
+      <h3>When to raise a dispute</h3>
+      <p>Either party may raise a dispute when the handover does not proceed as expected. Common grounds include:</p>
+      <p><em>For the Incoming Tenant:</em></p>
+      <ul>
+        <li>Keys were not handed over.</li>
+        <li>The flat condition does not match the listing description or photos.</li>
+        <li>The landlord refused to accept the Incoming Tenant after introduction.</li>
+        <li>The move-in date was changed without notice.</li>
+      </ul>
+      <p><em>For the Outgoing Tenant:</em></p>
+      <ul>
+        <li>Keys have been physically handed over but the Incoming Tenant has not confirmed in the app.</li>
+        <li>The Incoming Tenant is unresponsive and has not completed the move-in checklist.</li>
+        <li>A refund request is not valid because the Incoming Tenant has taken possession.</li>
+      </ul>
+
+      <h3>What raising a dispute does</h3>
+      <p>Filing a dispute immediately locks the escrow. Any automatic release and any pending refund are paused. A Handover mediator is assigned within 24 hours and contacts both parties through the app.</p>
+
+      <div class="callout callout-warning">
+        <p><strong>For Outgoing Tenants — key protection:</strong> Once you physically hand over the keys, ask the Incoming Tenant to confirm receipt in the app immediately. That confirmation is what releases your escrow payment. If they refuse to confirm or go silent after taking the keys, raise a dispute right away. Waiting will not help you — a dispute raised after the Incoming Tenant has requested a refund may still be overridden if the mediator determines the keys were genuinely withheld.</p>
+      </div>
+
+      <h3>Resolving a dispute</h3>
+      <p>A dispute does not close when one party declares it resolved. <strong>Both parties must independently confirm resolution.</strong> The process is:</p>
+      <ol>
+        <li>Either party presses <em>Mark as resolved</em>.</li>
+        <li>The other party receives an immediate notification.</li>
+        <li>The other party must press <em>Confirm resolution</em> to agree.</li>
+        <li>Only when both sides have confirmed does the dispute close.</li>
+      </ol>
+      <p>When a dispute closes, the escrow is released to the Outgoing Tenant. Disputes are about accountability and process — they are not a mechanism for returning money to the Incoming Tenant. Refunds are handled separately.</p>
+      <p>If the second party disagrees with the proposed resolution, they may decline and reopen the case with the mediator. The dispute remains open and funds remain locked until both sides agree.</p>
+
+      <h3>Incoming Tenant's right to appeal after resolution</h3>
+      <p>Where a dispute was raised by the Outgoing Tenant specifically to block a refund request, and both parties subsequently mark the dispute as resolved — causing the escrow to be released to the Outgoing Tenant by default — the Incoming Tenant retains the right to appeal to Handover if they believe the resolution was unjust.</p>
+      <p>This right applies specifically where the Incoming Tenant has evidence that the Outgoing Tenant acted in bad faith or breached their obligations under these Terms. Grounds for appeal include, but are not limited to:</p>
+      <ul>
+        <li><strong>Rent inflation</strong> — the rent demanded by the landlord was materially higher than the annual rent stated on the listing at the time the retainment was paid.</li>
+        <li><strong>Listing discrepancy</strong> — the condition, amenities, size, or features of the property were materially different from what was described or photographed in the listing.</li>
+        <li><strong>Breach of agreement</strong> — the Outgoing Tenant failed to fulfil their obligations in the handover process in a way that directly caused the incoming tenant loss.</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>How to appeal:</strong> Contact Handover Support at <a href="mailto:support@handoverapp.ng">support@handoverapp.ng</a> within <strong>14 days</strong> of the dispute closing. Include the transaction reference, a clear description of your concern, and any supporting evidence (photos, screenshots, messages, or documents). Appeals submitted after 14 days will not be considered.</p>
+      </div>
+
+      <p>Handover will review the appeal independently. Our review will examine the original listing, all in-app communications, any media or documentation submitted by the Incoming Tenant, and any response provided by the Outgoing Tenant. Both parties will be given a reasonable opportunity to present their position before a determination is made.</p>
+      <p>If Handover determines the appeal is valid — meaning the Outgoing Tenant's conduct or misrepresentation is found to be substantiated — Handover will:</p>
+      <ol>
+        <li>Process a full refund of the retainment to the Incoming Tenant within <strong>5 working days</strong>.</li>
+        <li>Formally close the dispute in the Incoming Tenant's favour.</li>
+        <li>Take appropriate action against the Outgoing Tenant's account, which may include a permanent ban from the Platform.</li>
+      </ol>
+      <p>If the appeal is not upheld, the original dispute outcome stands and no refund will be issued.</p>
+
+      <div class="callout callout-warning">
+        <p><strong>Important:</strong> This appeal process is not a general right to undo any resolved dispute. It applies only where there is clear evidence of misrepresentation or bad faith by the Outgoing Tenant. Disagreements about subjective preferences — such as the style of the flat, the neighbourhood, or a change of mind — are not valid grounds for appeal. Handover's determination on an appeal is final.</p>
+      </div>
+
+      <h2 id="fees">12. Handover's Fees</h2>
+      <p>Handover charges a flat platform fee of <strong>₦2,500</strong> to the Incoming Tenant at the time the retainment is paid. This fee is non-refundable once the retainment is processed, regardless of whether the handover proceeds.</p>
+      <p>There is no listing fee for Outgoing Tenants. Handover does not charge a commission on rent, a percentage of the retainment, or any recurring subscription fee.</p>
+      <p>Handover reserves the right to revise its fee structure. Any changes will be communicated with at least 14 days' notice before taking effect for new transactions.</p>
+
+      <h2 id="conduct">13. Prohibited Conduct</h2>
+      <p>The following are prohibited on the Handover Platform:</p>
+      <ul>
+        <li>Listing a property you do not actually occupy or have the right to hand over.</li>
+        <li>Requesting or accepting payment outside the Platform to circumvent escrow protections.</li>
+        <li>Posting fabricated photos, misleading descriptions, or false amenity claims.</li>
+        <li>Harassing, threatening, or engaging in discriminatory behaviour toward another user.</li>
+        <li>Creating multiple accounts to evade suspensions, bans, or verification requirements.</li>
+        <li>Using another person's identity or NIN to verify an account.</li>
+        <li>Sharing another user's personal information outside the Platform without their consent.</li>
+        <li>Using the Platform for any purpose other than genuine residential apartment handovers (e.g. commercial subletting, short-stay listings, scam operations).</li>
+        <li>Interfering with the integrity of the escrow, dispute, or refund systems through manipulation or false claims.</li>
+      </ul>
+      <p>Violations of this section may result in immediate account suspension, forfeiture of escrow funds, and referral to law enforcement where applicable.</p>
+
+      <h2 id="landlord">14. Landlord &amp; Lease Responsibility</h2>
+      <p>Handover connects tenants with each other. It does not connect tenants with landlords directly, and it is not responsible for the terms, conditions, or enforceability of any tenancy agreement.</p>
+      <p>The Outgoing Tenant is responsible for:</p>
+      <ul>
+        <li>Ensuring their lease permits them to introduce a replacement tenant (or understanding that it does not prohibit it).</li>
+        <li>Introducing the Incoming Tenant to their landlord honestly and in good faith.</li>
+        <li>Not misrepresenting the landlord's likely acceptance of the Incoming Tenant.</li>
+      </ul>
+      <p>The Incoming Tenant acknowledges that:</p>
+      <ul>
+        <li>The landlord has the sole and final right to accept or reject a new tenancy.</li>
+        <li>Handover cannot compel a landlord to accept any incoming tenant.</li>
+        <li>If the landlord rejects the Incoming Tenant after a proper introduction, this is grounds for a refund of the retainment (not a dispute).</li>
+      </ul>
+      <p>Handover is not liable for any losses arising from a landlord's refusal to enter into a new tenancy agreement.</p>
+
+      <h2 id="liability">15. Limitation of Liability</h2>
+      <p>To the fullest extent permitted by applicable Nigerian law:</p>
+      <ul>
+        <li>Handover's total liability to any user for any claim arising out of or related to these Terms or the Platform shall not exceed the amount of fees Handover actually received from that user in the six months preceding the claim.</li>
+        <li>Handover is not liable for losses arising from actions or omissions of landlords, third-party payment processors, or either party to a handover transaction.</li>
+        <li>Handover is not liable for any indirect, consequential, or incidental damages, including lost rent, accommodation costs, removal expenses, or any other costs arising from a failed handover.</li>
+        <li>Handover makes no warranty that the Platform will be error-free, uninterrupted, or available at all times.</li>
+      </ul>
+      <p>Nothing in these Terms limits Handover's liability for fraud, death or personal injury caused by negligence, or any liability that cannot be excluded by law.</p>
+
+      <h2 id="privacy">16. Privacy</h2>
+      <p>Handover collects and processes personal data — including NIN, phone number, and identity documents — for the purposes of verification, escrow management, and dispute resolution.</p>
+      <p>We do not sell your personal data to third parties. We may share data with licensed payment processors, identity verification services, and law enforcement where required by law.</p>
+      <p>By using the Platform, you consent to the collection and use of your data as described here and in our Privacy Policy (available separately on the Platform).</p>
+      <p>All user communications on the Platform are retained for a minimum of 12 months for the purposes of dispute resolution.</p>
+
+      <h2 id="termination">17. Termination</h2>
+      <h3>By you</h3>
+      <p>You may close your Handover account at any time, provided there are no open handover transactions, active disputes, or unreleased escrow amounts on your account. Contact <a href="mailto:support@handoverapp.ng">support@handoverapp.ng</a> to request account closure.</p>
+
+      <h3>By Handover</h3>
+      <p>Handover may suspend or permanently terminate your account if you:</p>
+      <ul>
+        <li>Breach any term in this agreement.</li>
+        <li>Provide false information during verification.</li>
+        <li>Engage in conduct that harms other users or the integrity of the Platform.</li>
+        <li>Are the subject of repeated dispute findings against you.</li>
+      </ul>
+      <p>Where permitted by law, Handover will notify you of a suspension and provide an opportunity to respond before a permanent ban is imposed. In cases of serious fraud or harm, suspension may be immediate and without prior notice.</p>
+
+      <h2 id="changes">18. Changes to These Terms</h2>
+      <p>Handover may update these Terms from time to time. When we make material changes, we will notify users via the email address on their account and display a notice in the app at least <strong>14 days before</strong> the new terms take effect for new transactions.</p>
+      <p>If you continue using the Platform after the effective date of updated Terms, you accept the revised Terms. If you do not agree with the updated Terms, you must close your account before the effective date.</p>
+      <p>Changes to pricing (Section 12) will also be communicated with at least 14 days' notice.</p>
+
+      <h2 id="governing-law">19. Governing Law</h2>
+      <p>These Terms are governed by the laws of the Federal Republic of Nigeria. Any dispute arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Lagos State, Nigeria.</p>
+      <p>Nothing in this clause limits Handover's ability to seek injunctive relief in any jurisdiction where your conduct may be causing harm.</p>
+
+      <h2 id="contact">20. Contact</h2>
+      <p>If you have questions about these Terms, please contact us:</p>
+      <div class="callout">
+        <p>
+          <strong>Handover Technologies Nigeria Ltd.</strong><br />
+          Email: <a href="mailto:legal@handoverapp.ng">legal@handoverapp.ng</a><br />
+          Support: <a href="mailto:support@handoverapp.ng">support@handoverapp.ng</a><br />
+          Lagos, Nigeria
+        </p>
+      </div>
+
+      <p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-3); font-family: var(--font-mono);">
+        Last updated: 28 May 2026 · Version 1.0
+      </p>
+
+    </article>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span class="brand-name" style="color: white;">Handover</span>
+        </div>
+        <p style="margin-top: 16px; font-size: 14px; line-height: 1.6; color: #C9BDAC; max-width: 320px;">
+          The peer-to-peer way to pass on a Nigerian apartment. No agents, no inflated fees.
+        </p>
+        <p style="margin-top: 16px; font-size: 13px; color: #897866; font-family: var(--font-mono);">
+          Made in Lagos · est. 2026
+        </p>
+      </div>
+      <div>
+        <h5>For tenants</h5>
+        <ul>
+          <li><a href="Handover Listings.html">Browse listings</a></li>
+          <li><a href="Handover Post Listing.html">List your apartment</a></li>
+          <li><a href="#">How retainment works</a></li>
+          <li><a href="#">Verification</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Cities</h5>
+        <ul>
+          <li><a href="#">Lagos</a></li>
+          <li><a href="#">Abuja</a></li>
+          <li><a href="#">Port Harcourt</a></li>
+          <li><a href="#">Ibadan</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Handover</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Trust &amp; safety</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="Handover Terms.html" style="color: var(--brand);">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Handover Technologies Nigeria Ltd.</span>
+      <span>Lagos · Abuja · Port Harcourt</span>
+    </div>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script>
+  // Highlight active TOC item on scroll
+  const sections = document.querySelectorAll('.terms-body h2[id]');
+  const links = document.querySelectorAll('.terms-toc a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.terms-toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

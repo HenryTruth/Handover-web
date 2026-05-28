@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Messages — Handover</title>
+<link rel="stylesheet" href="handover.css" />
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+  body { background: var(--paper-2); }
+
+  .msg-shell {
+    display: grid;
+    grid-template-columns: 340px 1fr 320px;
+    gap: 0;
+    height: calc(100vh - 73px);
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  }
+  @media (max-width: 1100px) { .msg-shell { grid-template-columns: 320px 1fr; } .msg-context { display: none; } }
+  @media (max-width: 760px) { .msg-shell { grid-template-columns: 1fr; } .msg-list { display: none; } }
+
+  /* ===== List column ===== */
+  .msg-list {
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    background: var(--paper-2);
+  }
+  .msg-list-head {
+    padding: 22px 22px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-2);
+    position: sticky; top: 0; z-index: 2;
+  }
+  .msg-list-head .h {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin: 0 0 14px;
+  }
+  .msg-list-head .h em { color: var(--brand); }
+  .msg-search {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: var(--r);
+    height: 40px; padding: 0 12px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--ink-3);
+  }
+
+  .msg-tab-row {
+    display: flex; gap: 6px; padding: 14px 22px 8px;
+  }
+  .msg-tab-row .t {
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-3);
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .msg-tab-row .t.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .msg-tab-row .t .ct { font-size: 10.5px; opacity: 0.6; margin-left: 4px; }
+
+  .convo {
+    display: flex; gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    position: relative;
+  }
+  .convo:hover { background: var(--paper); }
+  .convo.active { background: var(--paper); }
+  .convo.active::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--brand);
+  }
+  .convo .ava {
+    width: 44px; height: 44px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    font-family: var(--font-serif); font-size: 15px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .convo .ava.ink { background: var(--ink); color: var(--sand); }
+  .convo .ava.plum { background: var(--plum); color: var(--brand-tint); }
+  .convo .ava .pres {
+    position: absolute; bottom: 0; right: 0;
+    width: 11px; height: 11px;
+    border-radius: 9999px;
+    background: #5C7A4A;
+    border: 2px solid var(--paper-2);
+  }
+  .convo .body { flex: 1; min-width: 0; }
+  .convo .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .convo .nm { font-size: 14px; font-weight: 600; }
+  .convo .time { font-size: 11px; color: var(--ink-3); font-family: var(--font-mono); }
+  .convo .ctx {
+    font-size: 11px; color: var(--ink-3);
+    margin-top: 2px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .convo .preview {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 4px;
+    line-height: 1.45;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .convo.unread .preview { color: var(--ink); font-weight: 500; }
+  .convo .badge-unread {
+    background: var(--brand); color: white;
+    font-size: 10.5px; font-weight: 600;
+    padding: 2px 7px; border-radius: 9999px;
+    align-self: flex-start;
+  }
+
+  /* ===== Thread ===== */
+  .msg-thread { display: flex; flex-direction: column; min-width: 0; }
+  .thread-head {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+    background: var(--paper);
+    position: sticky; top: 0; z-index: 2;
+  }
+  .thread-head .ava {
+    width: 44px; height: 44px; border-radius: 9999px;
+    background: var(--brand-soft); color: var(--brand-deep);
+    font-family: var(--font-serif); font-size: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .thread-head .info { flex: 1; min-width: 0; }
+  .thread-head .info .n { font-size: 16px; font-weight: 600; }
+  .thread-head .info .s {
+    font-size: 12px; color: #5C7A4A;
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 2px;
+  }
+  .thread-head .info .s::before {
+    content: ""; width: 7px; height: 7px;
+    border-radius: 9999px; background: #5C7A4A;
+  }
+  .thread-head .actions { display: flex; gap: 8px; }
+
+  .thread-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .day-marker {
+    text-align: center;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin: 16px 0 12px;
+    position: relative;
+  }
+  .day-marker::before, .day-marker::after {
+    content: ""; position: absolute; top: 50%;
+    width: calc(50% - 80px); height: 1px;
+    background: var(--line);
+  }
+  .day-marker::before { left: 0; }
+  .day-marker::after { right: 0; }
+
+  .bubble {
+    max-width: 70%;
+    padding: 12px 16px;
+    font-size: 14.5px; line-height: 1.45;
+    border-radius: 18px;
+    margin-bottom: 2px;
+  }
+  .bubble.them {
+    align-self: flex-start;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-bottom-left-radius: 4px;
+  }
+  .bubble.me {
+    align-self: flex-end;
+    background: var(--brand);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .bubble-meta {
+    font-size: 11px; color: var(--ink-3);
+    font-family: var(--font-mono);
+    margin: 0 8px 10px;
+    letter-spacing: 0.02em;
+  }
+  .bubble-meta.them { align-self: flex-start; }
+  .bubble-meta.me { align-self: flex-end; }
+
+  /* Reference card (about the listing they're discussing) */
+  .ref-card {
+    align-self: flex-start;
+    max-width: 70%;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 10px;
+    display: flex; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .ref-card .thumb {
+    width: 56px; height: 56px; flex-shrink: 0;
+    border-radius: 10px;
+    background: repeating-linear-gradient(135deg, #F2D9C9 0 10px, #EBC4AC 10px 20px);
+  }
+  .ref-card .meta { flex: 1; min-width: 0; }
+  .ref-card .lbl { font-size: 11px; color: var(--ink-3); }
+  .ref-card .nm { font-size: 13.5px; font-weight: 600; line-height: 1.3; margin-top: 2px; }
+  .ref-card .price { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+
+  /* System / handover event in thread */
+  .sys-event {
+    align-self: center;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    margin: 8px 0;
+    max-width: 80%;
+  }
+  .sys-event i { color: var(--brand); }
+  .sys-event b { color: var(--ink); }
+
+  /* Composer */
+  .composer {
+    border-top: 1px solid var(--line);
+    padding: 14px 20px 18px;
+    background: var(--paper);
+  }
+  .composer .quick-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .composer .quick {
+    padding: 7px 14px;
+    border-radius: 9999px;
+    font-size: 12.5px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+  }
+  .composer .quick:hover { background: var(--paper); border-color: var(--ink-3); color: var(--ink); }
+  .composer-input {
+    display: flex; align-items: end; gap: 10px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 8px 8px 8px 14px;
+  }
+  .composer-input textarea {
+    flex: 1; border: 0; background: transparent;
+    font-family: inherit; font-size: 14.5px; color: var(--ink);
+    resize: none; outline: none;
+    min-height: 36px; max-height: 120px;
+    padding: 8px 0;
+    line-height: 1.45;
+  }
+  .composer-input .send {
+    width: 40px; height: 40px;
+    background: var(--brand); color: white;
+    border: 0; border-radius: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .composer-input .icon-btn {
+    width: 36px; height: 36px;
+    background: transparent;
+    border: 0; color: var(--ink-3);
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .composer-input .icon-btn:hover { color: var(--ink); }
+
+  /* ===== Context panel ===== */
+  .msg-context {
+    border-left: 1px solid var(--line);
+    background: var(--paper-2);
+    overflow-y: auto;
+    padding: 28px 24px;
+  }
+  .ctx-listing {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .ctx-listing .photo {
+    aspect-ratio: 4/3;
+    background: repeating-linear-gradient(135deg, #F2D9C9 0 14px, #EBC4AC 14px 28px);
+  }
+  .ctx-listing .body { padding: 14px; }
+  .ctx-listing .nm { font-size: 14.5px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+  .ctx-listing .loc { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 4px; }
+  .ctx-listing .price-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 10px; margin-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .ctx-listing .price-row .p { font-family: var(--font-serif); font-size: 18px; letter-spacing: -0.018em; }
+  .ctx-listing .price-row .r { text-align: right; font-size: 10.5px; color: var(--ink-3); line-height: 1.3; }
+  .ctx-listing .price-row .r b { display: block; color: var(--brand); font-size: 12px; }
+
+  .ctx-h {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin: 24px 0 10px;
+  }
+  .ctx-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 13.5px;
+  }
+  .ctx-row:last-child { border-bottom: 0; }
+  .ctx-row .v { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .ctx-row.brand .v { color: var(--brand); }
+
+  .ctx-note {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brand);
+    padding: 14px 16px;
+    border-radius: 0 var(--r) var(--r) 0;
+    font-size: 12.5px; color: var(--ink-2);
+    line-height: 1.55;
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="Handover Landing.html" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Handover</span>
+    </a>
+    <nav class="nav-links">
+      <a href="Handover Listings.html">Browse</a>
+      <a href="Handover Dashboard.html">My handover</a>
+      <a href="Handover Messages.html" style="color: var(--ink);">Messages</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="Handover Dashboard.html" class="btn btn-outline btn-sm" style="padding: 0 6px 0 14px; gap: 8px;">
+        Femi A.
+        <span style="width: 28px; height: 28px; border-radius: 9999px; background: var(--brand-soft); color: var(--brand-deep); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 13px;">FA</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main data-screen-label="Messages">
+  <div class="msg-shell">
+
+    <!-- ===== Conversations list ===== -->
+    <aside class="msg-list">
+      <div class="msg-list-head">
+        <h1 class="h">Your <em>handover chats</em></h1>
+        <div class="msg-search">
+          <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+          <span>Search messages…</span>
+        </div>
+        <div class="msg-tab-row">
+          <span class="t on">All <span class="ct">12</span></span>
+          <span class="t">Unread <span class="ct">2</span></span>
+          <span class="t">Archived</span>
+        </div>
+      </div>
+
+      <div class="convo active unread">
+        <div class="ava">AO<div class="pres"></div></div>
+        <div class="body">
+          <div class="top"><span class="nm">Adaeze Okonkwo</span><span class="time">9:14 AM</span></div>
+          <div class="ctx"><i data-lucide="key-round" style="width: 11px; height: 11px;"></i> Your handover — 3-bed Lekki</div>
+          <div class="preview">Sure, Saturday 11 works. I'll let the gatemen know to expect you and clear a parking spot.</div>
+        </div>
+        <span class="badge-unread">2</span>
+      </div>
+
+      <div class="convo">
+        <div class="ava ink">OA</div>
+        <div class="body">
+          <div class="top"><span class="nm">Mr. Olabode (landlord)</span><span class="time">Yesterday</span></div>
+          <div class="ctx"><i data-lucide="phone" style="width: 11px; height: 11px;"></i> Will call you tomorrow morning</div>
+          <div class="preview">Good evening Femi. Adaeze introduced you. Let us speak on Friday morning around 10am.</div>
+        </div>
+      </div>
+
+      <div class="convo unread">
+        <div class="ava plum">CN</div>
+        <div class="body">
+          <div class="top"><span class="nm">Chinedu Nwosu</span><span class="time">Yesterday</span></div>
+          <div class="ctx"><i data-lucide="home" style="width: 11px; height: 11px;"></i> Interested in your Wuse 2 listing</div>
+          <div class="preview">Hello Femi, I paid the retainment for your 2-bed in Wuse 2. Just wanted to introduce myself…</div>
+        </div>
+        <span class="badge-unread">1</span>
+      </div>
+
+      <div class="convo">
+        <div class="ava">FY</div>
+        <div class="body">
+          <div class="top"><span class="nm">Funmi Yusuf</span><span class="time">Mon</span></div>
+          <div class="ctx"><i data-lucide="home" style="width: 11px; height: 11px;"></i> Interested in your Wuse 2 listing</div>
+          <div class="preview">Hi! Quick question — is there flexibility on the move-in date? I'd need it Sept rather than Aug.</div>
+        </div>
+      </div>
+
+      <div class="convo">
+        <div class="ava">PA</div>
+        <div class="body">
+          <div class="top"><span class="nm">Peace Abiola</span><span class="time">Sun</span></div>
+          <div class="ctx"><i data-lucide="calendar" style="width: 11px; height: 11px;"></i> Wants viewing Saturday 11am</div>
+          <div class="preview">Can I bring my sister along for the viewing? Two opinions are better than one 😊</div>
+        </div>
+      </div>
+
+      <div class="convo">
+        <div class="ava ink">HT</div>
+        <div class="body">
+          <div class="top"><span class="nm">Handover support</span><span class="time">May 22</span></div>
+          <div class="ctx"><i data-lucide="shield-check" style="width: 11px; height: 11px;"></i> Verification confirmed</div>
+          <div class="preview">Hi Femi 👋 You're fully verified. Welcome to Handover. Here's a quick guide to making the most of your account…</div>
+        </div>
+      </div>
+
+      <div class="convo">
+        <div class="ava">TA</div>
+        <div class="body">
+          <div class="top"><span class="nm">Tunde Akinmade</span><span class="time">May 19</span></div>
+          <div class="ctx"><i data-lucide="archive" style="width: 11px; height: 11px;"></i> Yaba listing (you saved)</div>
+          <div class="preview">Hey, that one already got handed over. Thanks for the interest though. Check my profile for the next one I'm doing.</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== Thread ===== -->
+    <section class="msg-thread">
+      <div class="thread-head">
+        <div class="ava">AO</div>
+        <div class="info">
+          <div class="n">Adaeze Okonkwo</div>
+          <div class="s">Online now · typically replies in ~4 hrs</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-outline btn-sm"><i data-lucide="phone"></i></button>
+          <button class="btn btn-outline btn-sm"><i data-lucide="user"></i> View profile</button>
+          <button class="btn btn-outline btn-sm"><i data-lucide="more-horizontal"></i></button>
+        </div>
+      </div>
+
+      <div class="thread-scroll">
+        <div class="day-marker">May 22 · Thursday</div>
+
+        <!-- ref card -->
+        <div class="ref-card">
+          <div class="thumb"></div>
+          <div class="meta">
+            <div class="lbl">Talking about</div>
+            <div class="nm">3-bed flat in Lekki Phase 1</div>
+            <div class="price">₦4.5M/yr · retainment ₦35,000</div>
+          </div>
+        </div>
+
+        <div class="bubble them">Hi Femi, thanks for the interest! Happy to answer anything before you decide.</div>
+        <div class="bubble-meta them">7:42 PM</div>
+
+        <div class="bubble me">Hey Adaeze 👋 Is the inverter actually included? And how strict is the landlord on rent reviews?</div>
+        <div class="bubble-meta me">7:51 PM · Read</div>
+
+        <div class="bubble them">
+          Yes — the 3kVA inverter + 2 batteries stay. I installed them in 2024, receipt is in a folder I'll pass on.
+          <br><br>
+          Mr. Olabode hasn't raised rent in 2 years. He's the kind of landlord who responds to texts within an hour. As long as you don't blast music after 10pm, you'll be fine.
+        </div>
+        <div class="bubble-meta them">8:04 PM</div>
+
+        <div class="bubble me">Beautiful. That actually matters a lot to me.</div>
+        <div class="bubble-meta me">8:09 PM · Read</div>
+
+        <div class="bubble me">I work in tech, live alone, very quiet. Can I come see this Saturday around 11?</div>
+        <div class="bubble-meta me">8:10 PM · Read</div>
+
+        <div class="day-marker">Today · May 23</div>
+
+        <!-- system event: retainment paid -->
+        <div class="sys-event">
+          <i data-lucide="lock"></i>
+          <span><b>Femi paid retainment</b> · ₦37,500 held in escrow · 7:08 AM</span>
+        </div>
+        <div class="sys-event">
+          <i data-lucide="check-circle"></i>
+          <span><b>Adaeze confirmed Femi</b> · house manual unlocked · 7:42 AM</span>
+        </div>
+
+        <div class="bubble them">Saw your retainment came through. Confirmed you 🎉</div>
+        <div class="bubble-meta them">7:43 AM</div>
+
+        <div class="bubble them">House manual is yours now. Mr. Olabode's number is in there. I told him to expect a call from you this week.</div>
+        <div class="bubble-meta them">7:44 AM</div>
+
+        <div class="bubble me">Thank you Adaeze 🙏 reading it now — the suya tip is gold.</div>
+        <div class="bubble-meta me">9:11 AM · Read</div>
+
+        <div class="bubble me">Still good for Saturday viewing? Want to walk through with you before you fly out.</div>
+        <div class="bubble-meta me">9:12 AM · Read</div>
+
+        <div class="bubble them">Sure, Saturday 11 works. I'll let the gatemen know to expect you and clear a parking spot.</div>
+        <div class="bubble-meta them">9:14 AM</div>
+
+        <div class="bubble them">Should we do brunch after? There's a place in the estate I want you to try before you move in.</div>
+        <div class="bubble-meta them">9:14 AM</div>
+      </div>
+
+      <!-- Composer -->
+      <div class="composer">
+        <div class="quick-row">
+          <span class="quick">👍 Sounds good</span>
+          <span class="quick">Brunch — yes</span>
+          <span class="quick">What time works best?</span>
+          <span class="quick">Send my number</span>
+        </div>
+        <div class="composer-input">
+          <textarea placeholder="Message Adaeze… (keep it specific — listings move fast)"></textarea>
+          <button class="icon-btn"><i data-lucide="paperclip"></i></button>
+          <button class="icon-btn"><i data-lucide="smile"></i></button>
+          <button class="send"><i data-lucide="send"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Context panel ===== -->
+    <aside class="msg-context">
+      <div class="ctx-h">— What you're discussing</div>
+      <div class="ctx-listing">
+        <div class="photo"></div>
+        <div class="body">
+          <div class="loc"><i data-lucide="map-pin" style="width: 12px; height: 12px;"></i>Lekki Phase 1, Lagos</div>
+          <div class="nm">3-bed flat in a quiet close</div>
+          <div class="price-row">
+            <div class="p">₦4,500,000</div>
+            <div class="r">Retainment<b>₦35,000</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctx-h">— Handover status</div>
+      <div class="ctx-row brand">
+        <span>Step</span>
+        <span class="v">3 of 4 · Meet landlord</span>
+      </div>
+      <div class="ctx-row">
+        <span>Retainment</span>
+        <span class="v">Held in escrow</span>
+      </div>
+      <div class="ctx-row">
+        <span>Confirmed</span>
+        <span class="v">May 23 · 7:42 AM</span>
+      </div>
+      <div class="ctx-row">
+        <span>Move-in</span>
+        <span class="v">Aug 1, 2026</span>
+      </div>
+
+      <a href="Handover Dashboard.html" class="btn btn-outline btn-block mt-4" style="margin-top: 14px;">
+        Open full handover <i data-lucide="arrow-right"></i>
+      </a>
+
+      <div class="ctx-h">— About Adaeze</div>
+      <div class="ctx-row">
+        <span>Verified</span>
+        <span class="v" style="display: flex; align-items: center; gap: 4px; color: var(--brand);"><i data-lucide="badge-check" style="width: 12px; height: 12px;"></i>NIN + utility bill</span>
+      </div>
+      <div class="ctx-row">
+        <span>At this address</span>
+        <span class="v">2 years</span>
+      </div>
+      <div class="ctx-row">
+        <span>Past handovers</span>
+        <span class="v">1 completed</span>
+      </div>
+      <div class="ctx-row">
+        <span>Avg response</span>
+        <span class="v">~4 hrs</span>
+      </div>
+
+      <div class="ctx-note">
+        <strong>Safety reminder.</strong> Never send money outside Handover. If Adaeze asks you to pay rent, agency fees, or "viewing fees" directly to her, report the chat — that's not how Handover works.
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

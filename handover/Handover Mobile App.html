@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Handover — Mobile App</title>
+<link rel="stylesheet" href="handover-mobile.css" />
+<style>
+  html, body { margin: 0; height: 100%; background: #F0EEE9; font-family: -apple-system, system-ui, sans-serif; }
+  #root { height: 100vh; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#F6F1E7"/>
+    <rect x="68" y="36" width="64" height="128" rx="12" fill="#FFFBF3" stroke="#E2D6BD" stroke-width="2"/>
+    <rect x="76" y="50" width="48" height="60" rx="4" fill="#F2D9C9"/>
+    <circle cx="148" cy="58" r="22" fill="#B85431"/>
+    <text x="148" y="65" font-family="Georgia, serif" font-size="22" font-style="italic" font-weight="700" fill="#FFFBF3" text-anchor="middle">H</text>
+    <rect x="76" y="118" width="48" height="6" rx="2" fill="#221C16"/>
+    <rect x="76" y="128" width="32" height="4" rx="2" fill="#C9B997"/>
+  </svg>
+</template>
+
+<div id="root"></div>
+
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="handover-screens.jsx"></script>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  // Inset wrapper that places a screen inside the iOS device chrome.
+  // The iOS frame leaves room for the dynamic island + status bar at top
+  // and the home indicator at the bottom. Our screens already account for
+  // that via the .hm-topbar padding-top: 56px and tabbar bottom: 28px.
+  function Phone({ children, dark = false }) {
+    return (
+      <IOSDevice width={390} height={844} dark={dark}>
+        {children}
+      </IOSDevice>
+    );
+  }
+
+  function App() {
+    return (
+      <DesignCanvas
+        title="Handover — Mobile app"
+        subtitle="19 screens · the full journey from splash to keys-in-hand"
+      >
+        <DCSection
+          id="onboarding"
+          title="01 — Launch &amp; onboarding"
+          subtitle="First impression, sign in, identity check"
+        >
+          <DCArtboard id="splash" label="01 · Splash" width={390} height={844}>
+            <Phone><ScreenSplash/></Phone>
+          </DCArtboard>
+          <DCArtboard id="onboarding" label="02 · Onboarding" width={390} height={844}>
+            <Phone><ScreenOnboarding/></Phone>
+          </DCArtboard>
+          <DCArtboard id="signin" label="03 · Sign in" width={390} height={844}>
+            <Phone><ScreenSignIn/></Phone>
+          </DCArtboard>
+          <DCArtboard id="verify" label="04 · Verification" width={390} height={844}>
+            <Phone><ScreenVerify/></Phone>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="discover"
+          title="02 — Discover"
+          subtitle="Browse, filter, see on the map"
+        >
+          <DCArtboard id="browse" label="05 · Browse" width={390} height={844}>
+            <Phone><ScreenBrowse/></Phone>
+          </DCArtboard>
+          <DCArtboard id="filters" label="06 · Filters sheet" width={390} height={844}>
+            <Phone><ScreenFilters/></Phone>
+          </DCArtboard>
+          <DCArtboard id="map" label="07 · Map view" width={390} height={844}>
+            <Phone><ScreenMap/></Phone>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="listing"
+          title="03 — Find a place"
+          subtitle="Listing detail, gallery, message the outgoing tenant"
+        >
+          <DCArtboard id="listing" label="08 · Listing detail" width={390} height={844}>
+            <Phone><ScreenListing/></Phone>
+          </DCArtboard>
+          <DCArtboard id="gallery" label="09 · Photo gallery" width={390} height={844}>
+            <Phone><ScreenGallery/></Phone>
+          </DCArtboard>
+          <DCArtboard id="chat" label="10 · Chat with tenant" width={390} height={844}>
+            <Phone><ScreenChat/></Phone>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="payment"
+          title="04 — Lock it in"
+          subtitle="The retainment flow"
+        >
+          <DCArtboard id="pay" label="11 · Pay retainment" width={390} height={844}>
+            <Phone><ScreenPay/></Phone>
+          </DCArtboard>
+          <DCArtboard id="success" label="12 · Payment success" width={390} height={844}>
+            <Phone><ScreenPaymentSuccess/></Phone>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="handover"
+          title="05 — The handover itself"
+          subtitle="Tracking, the unlocked house manual, confirming you've moved in"
+        >
+          <DCArtboard id="status" label="13 · Handover status" width={390} height={844}>
+            <Phone><ScreenStatus/></Phone>
+          </DCArtboard>
+          <DCArtboard id="manual" label="14 · House manual" width={390} height={844}>
+            <Phone><ScreenManual/></Phone>
+          </DCArtboard>
+          <DCArtboard id="movein" label="15 · Move-in confirmation" width={390} height={844}>
+            <Phone><ScreenMoveIn/></Phone>
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection
+          id="outgoing"
+          title="06 — For the outgoing tenant"
+          subtitle="Posting, the dashboard, picking who gets the keys"
+        >
+          <DCArtboard id="post" label="16 · Post listing" width={390} height={844}>
+            <Phone><ScreenPost/></Phone>
+          </DCArtboard>
+          <DCArtboard id="my-listings" label="17 · My listings" width={390} height={844}>
+            <Phone><ScreenMyListings/></Phone>
+          </DCArtboard>
+          <DCArtboard id="inbox" label="18 · Interested inbox" width={390} height={844}>
+            <Phone><ScreenInbox/></Phone>
+          </DCArtboard>
+          <DCArtboard id="profile" label="19 · Profile" width={390} height={844}>
+            <Phone><ScreenProfile/></Phone>
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
